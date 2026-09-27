@@ -14,6 +14,7 @@ A Python/FastAPI backend has been started and a sentiment-analysis prototype is 
 - FastAPI and Uvicorn introduced for the backend.
 - A sentiment-analysis model has been tested successfully.
 - Individual review sentiment can be classified.
+- Sentiment model loading and single-review prediction have been moved into the reusable `app/sentiment.py` module.
 - A simple review aggregation prototype can calculate the percentage of positive reviews.
 - Shared Codex collaboration instructions have been added through `AGENTS.md`.
 
@@ -24,11 +25,12 @@ The project currently contains:
 - a Python backend
 - an `app/` directory
 - a sentiment-analysis demo
+- reusable model-loading and prediction functions in `app/sentiment.py`
 - project dependencies in `requirements.txt`
 - Git version control
 - shared Codex instructions in `AGENTS.md`
 
-The current sentiment prototype works with sample reviews and produces an aggregate positive-review percentage.
+The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
 ## Incomplete / Not Yet Implemented
 
@@ -48,4 +50,4 @@ The current sentiment prototype works with sample reviews and produces an aggreg
 
 ## Recommended Next Step
 
-Inspect the existing backend structure and decide the first production API flow for restaurant and review data before expanding the application further.
+Connect the existing schemas and sentiment module to a FastAPI endpoint, then decide the first production API flow for restaurant and review data.
