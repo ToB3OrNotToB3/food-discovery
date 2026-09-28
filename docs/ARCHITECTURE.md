@@ -1,10 +1,12 @@
 # Architecture
 
+Last updated: 28 September 2026
+
 ## Overview
 
-The project is currently a Python-based application with a FastAPI backend and an ML sentiment-analysis component.
+The project is a food-discovery application with a Python/FastAPI backend and an ML sentiment-analysis component. Product scope and initial user journeys are defined in `docs/PRODUCT_BRIEF.md`.
 
-The architecture is still evolving.
+The technical architecture is still evolving. The frontend framework, database, authentication provider, deployment platform, and production API contract have not yet been decided.
 
 ## Current High-Level Flow
 
@@ -17,9 +19,9 @@ Sentiment model
     ↓
 Positive / negative classification
     ↓
-Aggregate sentiment calculation
+Aggregate positive-review percentage
     ↓
-Sentiment percentage
+Transparent Vibe Check response
 ```
 
 ## Backend
@@ -29,75 +31,86 @@ Sentiment percentage
 - Python
 - FastAPI
 - Uvicorn
+- Hugging Face Transformers
+- DistilBERT sentiment model
 
 ### Current Responsibilities
 
 The backend is expected to handle:
 
 - API endpoints
-- restaurant data
+- restaurant and dish data
 - review data
-- sentiment analysis
-- aggregation of sentiment results
-- communication with the frontend
+- sentiment inference and aggregation
+- validation and error responses
+- authentication and authorization if required
+- persistence once a database is selected
 
-## Sentiment Analysis
+### Current Implementation State
 
-The current prototype classifies individual reviews as positive or negative.
-
-The aggregate sentiment score is currently interpreted as:
-
-```text
-positive reviews / total reviews × 100
-```
-
-Example:
-
-```text
-3 positive reviews
-2 negative reviews
-
-Positive sentiment = 60%
-```
-
-## Data Layer
-
-A persistent database has not yet been finalized.
-
-When a database is chosen, document:
-
-- database technology
-- main entities/tables
-- relationships
-- how the backend accesses the database
+- `app/sentiment.py` loads the sentiment model and classifies individual review text.
+- `app/schemas.py` defines sentiment request and response schemas.
+- `app/main.py` is still a placeholder; no working API routes exist yet.
+- Restaurant, dish, review, database, and authentication layers are not implemented.
 
 ## Frontend
 
-Frontend architecture has not yet been documented here.
+Satyam (Developer 2) owns frontend product and implementation work unless reassigned in `docs/TASKS.md`.
 
-When frontend development is added, document:
+Phase 1 architecture is in progress. No frontend framework has been committed yet. Before implementation, Phase 1 must document:
 
-- framework
-- major components
-- API communication
-- state-management approach if used
+- framework and language choices
+- frontend repository structure
+- routing and rendering strategy
+- state and data-fetching approach
+- API client and error contract
+- mock-data strategy and transition to live APIs
+- accessibility, performance, security, testing, and observability gates
+- local development, CI, preview, and deployment workflow
+
+The frontend must initially support typed mock data that matches the agreed FastAPI response shapes. Shared response shapes must be coordinated with Vansh (Developer 1) before either side changes them.
+
+## API Boundary
+
+The production API contract is not yet defined. Phase 1 must agree on the first vertical-slice contract before frontend or backend implementation depends on it.
+
+At minimum, the contract should define:
+
+- stable request and response schemas
+- identifiers, timestamps, pagination, filtering, and sorting
+- validation and error response shape
+- loading, empty, partial, and failure states
+- sentiment percentage, review count, provenance, and insufficient-data behavior
+- versioning and compatibility expectations
+
+Model confidence for one review must not be exposed as a restaurant rating.
 
 ## Repository Structure
 
-Current important items include:
-
 ```text
-food-discovery/
-├── app/
-├── sentiment_demo.py
-├── requirements.txt
-├── README.md
-├── AGENTS.md
-└── docs/
-    ├── PROJECT_STATE.md
-    ├── TASKS.md
-    ├── ARCHITECTURE.md
-    └── DECISIONS.md
+app/
+    __init__.py
+    main.py
+    schemas.py
+    sentiment.py
+docs/
+    ARCHITECTURE.md
+    DECISIONS.md
+    PRODUCT_BRIEF.md
+    PROJECT_STATE.md
+    TASKS.md
+AGENTS.md
+README.md
+requirements.txt
+sentiment_demo.py
 ```
 
-Update this file whenever the system structure changes substantially.
+A frontend directory will be added only after the Phase 1 structure is decided and recorded.
+
+## Source-of-Truth Rules
+
+- `docs/PRODUCT_BRIEF.md` defines product scope, users, journeys, boundaries, and success.
+- `docs/TASKS.md` defines active ownership.
+- `docs/PROJECT_STATE.md` records the current implementation state and next step.
+- `docs/DECISIONS.md` records accepted technical decisions.
+- Working code takes precedence when documentation becomes stale; update the documentation in the same focused change whenever possible.
