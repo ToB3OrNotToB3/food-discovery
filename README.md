@@ -6,6 +6,13 @@ A learning project exploring machine learning, MLOps, and backend architecture f
 
 A short-form restaurant video feed with review sentiment (Vibe Check), dish tagging, personalized recommendations, and ordering links.
 
+## Project documentation
+
+- [`docs/PRODUCT_BRIEF.md`](docs/PRODUCT_BRIEF.md): product vision, initial market, V1 scope, and success definition.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): current technical architecture and system boundaries.
+- [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md): what works now, known limitations, and the recommended next step.
+- [`docs/TASKS.md`](docs/TASKS.md): active work and developer ownership.
+
 ## Current progress
 
 - Working local sentiment demo using Hugging Face DistilBERT on CPU.
