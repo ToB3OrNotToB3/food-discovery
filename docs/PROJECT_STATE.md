@@ -1,12 +1,12 @@
 # Project State
 
-Last updated: 27 September 2026
+Last updated: 28 September 2026
 
 ## Current Status
 
 The project is under active development.
 
-A Python/FastAPI backend has been started and a sentiment-analysis prototype is working.
+Phase 0 product definition is complete and documented in `docs/PRODUCT_BRIEF.md`. A Python/FastAPI backend has been started, the reusable sentiment-analysis module is implemented, and Phase 1 frontend architecture is now the next frontend milestone.
 
 ## Completed
 
@@ -17,37 +17,58 @@ A Python/FastAPI backend has been started and a sentiment-analysis prototype is 
 - Sentiment model loading and single-review prediction have been moved into the reusable `app/sentiment.py` module.
 - A simple review aggregation prototype can calculate the percentage of positive reviews.
 - Shared Codex collaboration instructions have been added through `AGENTS.md`.
+- Phase 0 product definition, V1 boundaries, prototype-content policy, success metrics, and monetization direction have been documented in `docs/PRODUCT_BRIEF.md`.
+- Developer ownership and the next frontend task have been recorded in `docs/TASKS.md`.
 
 ## Current Implementation
 
 The project currently contains:
 
-- a Python backend
+- a Python backend foundation
 - an `app/` directory
+- request and response schemas for sentiment analysis
 - a sentiment-analysis demo
 - reusable model-loading and prediction functions in `app/sentiment.py`
 - project dependencies in `requirements.txt`
 - Git version control
-- shared Codex instructions in `AGENTS.md`
+- shared project documentation and Codex instructions
 
 The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
+No working FastAPI routes or frontend application exist yet.
+
+## Current Work
+
+- Developer 1 — Vansh: define and record the next backend or API task and coordinate the initial frontend API contract.
+- Developer 2 — Satyam: complete Phase 1 frontend architecture, including technology choices, repository structure, API boundary, quality gates, and development workflow.
+
+Active ownership is maintained in `docs/TASKS.md`.
+
 ## Incomplete / Not Yet Implemented
 
+- Final frontend architecture and framework decision
+- Frontend application and design system
+- Typed mock-data layer
+- Agreed production API contract
+- Working FastAPI routes
+- Restaurant, dish, and review models
 - Persistent database storage
-- Real restaurant/review data integration
-- Production-ready API structure
+- Real restaurant and review data integration
 - Frontend-to-backend integration
-- Authentication
-- Full error handling
+- Authentication and authorization
+- Production validation and error handling
+- Automated testing and CI
+- Observability and analytics
 - Deployment setup
 
 ## Known Issues / Limitations
 
-- Review data is currently sample/mock data.
+- Restaurant, dish, review, image, and video content is currently mock or not yet created.
 - Sentiment aggregation is still a prototype rather than a complete application feature.
-- Documentation will need to be updated as the codebase evolves.
+- Model confidence for a single review is not a restaurant rating.
+- The frontend framework and API response shapes are not yet committed decisions.
+- Public review submission is outside the initial alpha scope.
 
 ## Recommended Next Step
 
-Connect the existing schemas and sentiment module to a FastAPI endpoint, then decide the first production API flow for restaurant and review data.
+Complete Phase 1 frontend architecture and agree the first vertical-slice API contract between Satyam and Vansh before frontend or backend implementation depends on it. Record accepted technical choices in `docs/DECISIONS.md`, then implement the smallest end-to-end discovery slice using typed mock data on the frontend and compatible FastAPI schemas on the backend.
