@@ -11,7 +11,7 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ### Developer 2 — Satyam
 
-- [ ] Complete Phase 1 frontend architecture: technology choices, repository structure, API boundary, quality gates, and development workflow.
+- [ ] Scaffold the frontend foundation and implement the first vertical discovery slice defined in `docs/FRONTEND_ARCHITECTURE.md`.
 
 ## Todo
 
@@ -37,6 +37,7 @@ This file tracks active work so both developers and both Codex instances know wh
 - [x] Calculate positive-review percentage from sample reviews.
 - [x] Add shared `AGENTS.md` instructions for Codex collaboration.
 - [x] Complete Phase 0 product definition in `docs/PRODUCT_BRIEF.md`.
+- [x] Define Phase 1 frontend architecture, technology choices, API boundary, and quality gates.
 
 ## Task Ownership Rule
 

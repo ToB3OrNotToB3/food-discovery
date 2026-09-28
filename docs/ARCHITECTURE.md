@@ -57,16 +57,7 @@ The backend is expected to handle:
 
 Satyam (Developer 2) owns frontend product and implementation work unless reassigned in `docs/TASKS.md`.
 
-Phase 1 architecture is in progress. No frontend framework has been committed yet. Before implementation, Phase 1 must document:
-
-- framework and language choices
-- frontend repository structure
-- routing and rendering strategy
-- state and data-fetching approach
-- API client and error contract
-- mock-data strategy and transition to live APIs
-- accessibility, performance, security, testing, and observability gates
-- local development, CI, preview, and deployment workflow
+The initial frontend architecture is defined in `docs/FRONTEND_ARCHITECTURE.md`. The accepted foundation uses Next.js App Router, strict TypeScript, pnpm, Tailwind CSS design tokens, and accessible native or Radix-based primitives.
 
 The frontend must initially support typed mock data that matches the agreed FastAPI response shapes. Shared response shapes must be coordinated with Vansh (Developer 1) before either side changes them.
 
@@ -96,6 +87,7 @@ app/
 docs/
     ARCHITECTURE.md
     DECISIONS.md
+    FRONTEND_ARCHITECTURE.md
     PRODUCT_BRIEF.md
     PROJECT_STATE.md
     TASKS.md
@@ -105,7 +97,7 @@ requirements.txt
 sentiment_demo.py
 ```
 
-A frontend directory will be added only after the Phase 1 structure is decided and recorded.
+A `frontend/` directory will be added when the application foundation is scaffolded.
 
 ## Source-of-Truth Rules
 

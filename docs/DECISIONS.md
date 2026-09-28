@@ -59,6 +59,31 @@ Codex chat histories on separate computers should not be treated as shared proje
 
 ---
 
+## 2026-09-28 — Frontend Foundation
+
+### Decision
+
+Build the frontend in a new `frontend/` directory using Next.js App Router, TypeScript with strict checking, pnpm, Tailwind CSS with design tokens, and accessible native or Radix-based UI primitives.
+
+Use server rendering by default for public pages and add client-side data management only where the infinite feed, search, or mutations require it. FastAPI remains the backend source of truth.
+
+### Reason
+
+The product needs fast public restaurant pages, app-like navigation, an interactive mobile feed, and a typed boundary that can move from demo content to FastAPI without rewriting presentation components.
+
+### Constraints
+
+- Do not duplicate backend business logic in Next.js.
+- Do not add global state or major dependencies without a concrete requirement.
+- Target WCAG 2.2 AA and the Core Web Vitals "good" thresholds.
+- Keep the hosting provider and authentication solution undecided until their requirements are known.
+
+### Detail
+
+See `docs/FRONTEND_ARCHITECTURE.md`.
+
+---
+
 ## Future Decisions
 
 Add entries here when making important choices such as:
