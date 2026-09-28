@@ -4,13 +4,14 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ## In Progress
 
-### Developer 1
+### Developer 1 — Vansh
 
-- [ ] Define current backend task before starting the next coding session.
+- [ ] Define and record the next backend or API task before implementation.
+- [ ] Coordinate the initial frontend API contract with Satyam before changing shared response shapes.
 
-### Developer 2
+### Developer 2 — Satyam
 
-- [ ] Define current task before starting the next coding session.
+- [ ] Complete Phase 1 frontend architecture: technology choices, repository structure, API boundary, quality gates, and development workflow.
 
 ## Todo
 
@@ -35,6 +36,7 @@ This file tracks active work so both developers and both Codex instances know wh
 - [x] Test sentiment-analysis model.
 - [x] Calculate positive-review percentage from sample reviews.
 - [x] Add shared `AGENTS.md` instructions for Codex collaboration.
+- [x] Complete Phase 0 product definition in `docs/PRODUCT_BRIEF.md`.
 
 ## Task Ownership Rule
 
