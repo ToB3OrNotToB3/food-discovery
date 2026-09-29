@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 28 September 2026
+Last updated: 29 September 2026
 
 ## Product Stage
 
@@ -25,6 +25,12 @@ The product is expected to eventually include:
 
 The current implementation should remain simpler than the long-term architecture.
 
+## Product and Frontend Milestone
+
+Phase 0 product definition is complete in `docs/PRODUCT_BRIEF.md`, including the Bangalore audience, V1 discovery journey, content policy, success metrics, and monetization direction. The initial alpha uses read-only synthetic reviews; public review submission is outside its scope.
+
+Satyam is completing Phase 1 frontend architecture: technology choices, repository structure, API boundary, quality gates, and development workflow. No frontend framework or production discovery response shapes are finalized.
+
 ## Completed
 
 - Python project environment created
@@ -36,6 +42,9 @@ The current implementation should remain simpler than the long-term architecture
 - prototype positive-review percentage calculation created
 - shared Codex collaboration instructions added
 - shared project documentation added
+- Phase 0 product definition completed
+- reusable model loading and prediction implemented in `app/sentiment.py`
+- `GET /health` and `POST /sentiment` implemented in `app/main.py`, with startup model loading and request/response validation
 
 ## Current Implementation
 
@@ -49,7 +58,9 @@ The repository currently includes:
 - shared Codex instructions
 - shared development documentation
 
-The current sentiment functionality works with sample/mock review data.
+The reusable sentiment module loads DistilBERT on CPU. The API accepts review text and returns a label and confidence without persisting reviews. The original demo separately computes an aggregate positive-review percentage from sample data; restaurant-level aggregation is not exposed by the API.
+
+On 29 September 2026, an in-process TestClient smoke check passed for health, real positive/negative model predictions, and rejection of blank, missing, and overlong input. No committed automated suite exists yet. The installed TestClient emitted an httpx deprecation warning; revisit its dependency when adding the test suite.
 
 ## Developer Ownership
 
@@ -70,7 +81,7 @@ Working primarily on:
 
 ## MVP Priorities
 
-1. Define the smallest useful end-to-end product flow.
+1. Implement the smallest discovery slice from the agreed Phase 0 product brief after coordinating its API contract.
 2. Make the backend API structure clean enough for frontend consumption.
 3. Build the initial web experience.
 4. Persist real data.
@@ -111,4 +122,4 @@ Scale-oriented infrastructure should be introduced only when real usage or techn
 
 ## Recommended Next Step
 
-Define the first complete end-to-end MVP user flow and implement only the backend, frontend, data, and model pieces required to make that flow usable.
+Complete Phase 1 frontend architecture and agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Use typed mock data consistent with that contract. Vansh should add focused API/model tests and plan the required restaurant/dish/review data structures; Satyam owns frontend architecture and implementation.

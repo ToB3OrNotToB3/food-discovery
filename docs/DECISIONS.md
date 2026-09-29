@@ -167,3 +167,8 @@ Record these when finalized:
 - monitoring/error-reporting tools
 - CI/CD strategy
 - external restaurant/data providers
+
+
+## 2026-09-29 - Initial sentiment API
+
+`POST /sentiment` accepts a JSON object with `text` (trimmed, 1-2,000 characters) and returns `label` plus `confidence` between 0 and 1. Invalid input uses FastAPI's HTTP 422 response. A synchronous endpoint reuses the CPU analyzer loaded once per process through FastAPI lifespan. This is an inference-only development endpoint, not persisted review submission or a restaurant rating. The first discovery API contract remains to be coordinated with the frontend; the alpha content and review boundaries in `docs/PRODUCT_BRIEF.md` still apply.

@@ -13,7 +13,7 @@ Primary responsibility:
 
 Current tasks:
 - [ ] Organize the FastAPI backend into a maintainable MVP structure.
-- [ ] Define the first stable API contracts needed by the frontend.
+- [ ] Coordinate the first discovery API contract with Satyam before changing shared response shapes.
 - [ ] Build and improve the sentiment/model pipeline.
 - [ ] Define restaurant data model.
 - [ ] Define review data model.
@@ -31,7 +31,8 @@ Primary responsibility:
 - future mobile UI
 
 Current tasks:
-- [ ] Define the initial web app structure.
+- [ ] Complete Phase 1 frontend architecture: technology choices, repository structure, API boundary, quality gates, and development workflow.
+- [ ] Define the initial web app structure based on the accepted Phase 1 decisions.
 - [ ] Build the first core user flow.
 - [ ] Create restaurant listing UI.
 - [ ] Create restaurant details UI.
@@ -42,7 +43,7 @@ Current tasks:
 
 ## MVP Todo
 
-- [ ] Agree on the first end-to-end MVP user journey.
+- [ ] Implement the first discovery slice defined in `docs/PRODUCT_BRIEF.md` after agreeing its API contract.
 - [ ] Replace sample reviews with real stored/retrieved reviews.
 - [ ] Select a production-suitable but simple database.
 - [ ] Connect frontend and backend end-to-end.
@@ -77,6 +78,10 @@ These should not block the first usable release unless genuinely required:
 - [x] Add shared `AGENTS.md` instructions.
 - [x] Add shared project documentation.
 - [x] Assign developer ownership.
+- [x] Complete Phase 0 product definition in `docs/PRODUCT_BRIEF.md`.
+- [x] Implement reusable sentiment loading and prediction.
+- [x] Add health and sentiment API endpoints with startup model loading and schema validation.
+- [x] Manually verify health, real positive/negative inference, and invalid-input rejection with TestClient (29 September 2026); automated regression tests remain pending.
 
 ## Task Ownership Rule
 

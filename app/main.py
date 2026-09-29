@@ -24,7 +24,8 @@ app = FastAPI(
 @app.get("/health")
 def health():
     return {"status": "ok"}
-    
+
+
 @app.post("/sentiment", response_model=SentimentResponse)
 def analyze_sentiment(
     payload: SentimentRequest,
