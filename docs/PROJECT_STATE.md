@@ -1,12 +1,12 @@
 # Project State
 
-Last updated: 28 September 2026
+Last updated: 29 September 2026
 
 ## Current Status
 
 The project is under active development.
 
-Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started, the reusable sentiment-analysis module is implemented, and the next frontend milestone is scaffolding the application foundation and first vertical discovery slice.
+Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype; the full vertical video discovery slice remains in progress.
 
 ## Completed
 
@@ -36,7 +36,7 @@ The project currently contains:
 
 The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
-No working FastAPI routes or frontend application exist yet.
+No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, restaurant detail dialogs, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`.
 
 ## Current Work
 
@@ -47,8 +47,8 @@ Active ownership is maintained in `docs/TASKS.md`.
 
 ## Incomplete / Not Yet Implemented
 
-- Frontend application and design system
-- Typed mock-data layer
+- Vertical video feed, linked restaurant routes, and full loading/error/offline states
+- API-compatible mock adapter and URL-driven filters (current prototype uses local UI state)
 - Agreed production API contract
 - Working FastAPI routes
 - Restaurant, dish, and review models
@@ -68,7 +68,8 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
+- The current photo feed is a visual prototype, not completion of the first vertical slice. Photos require external network access. No live venue data, directions, ordering, or video playback is connected.
 
 ## Recommended Next Step
 
-Review the draft first-slice API contract with Vansh, then scaffold the frontend foundation and implement the smallest end-to-end discovery slice using typed mock data and compatible FastAPI schemas.
+Review the redesigned prototype with Satyam, then implement the vertical media feed and linked detail routes. Coordinate the draft API contract with Vansh before integrating real endpoints, and add the required component/accessibility gates before a frontend PR.

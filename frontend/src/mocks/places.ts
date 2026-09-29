@@ -1,0 +1,7 @@
+export type Place = { id: string; name: string; dish: string; area: string; cuisine: string; price: number; vegetarian: boolean; photo: string; description: string; positive: number; reviews: number; tag: string };
+export const places: Place[] = [
+  { id: "rice-radio", name: "Rice Radio", dish: "Dum biryani", area: "Koramangala", cuisine: "Biryani", price: 180, vegetarian: false, photo: "photo-1589302168068-964664d93dc0", description: "Long-grain rice, slow-cooked spices, and raita on the side. An imaginary lunch spot for your very real biryani craving.", positive: 87, reviews: 46, tag: "The lunch plan" },
+  { id: "dosa-social", name: "Dosa Social", dish: "Ghee masala dosa", area: "Indiranagar", cuisine: "South Indian", price: 90, vegetarian: true, photo: "photo-1743615467204-8fdaa85ff2db", description: "Golden edges, a soft potato centre, and chutney on the side. A fictional neighbourhood breakfast counter with a short, simple menu.", positive: 92, reviews: 38, tag: "Big crunch. Small bill." },
+  { id: "bun-theory", name: "Bun Theory", dish: "The classic burger", area: "Koramangala", cuisine: "Burgers", price: 220, vegetarian: false, photo: "photo-1613660635034-b7a09ae11463", description: "A toasted bun, grilled patty, crisp lettuce, and house sauce. A fictional burger joint made for our discovery prototype.", positive: 81, reviews: 27, tag: "Worth getting your hands messy" },
+];
+export function photoUrl(photo: string, width = 800) { return `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=${width}&q=85`; }

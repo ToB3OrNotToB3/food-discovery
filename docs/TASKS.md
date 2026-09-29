@@ -11,7 +11,7 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ### Developer 2 — Satyam
 
-- [ ] Scaffold the frontend foundation and implement the first vertical discovery slice defined in `docs/FRONTEND_ARCHITECTURE.md`.
+- [ ] Complete the first vertical discovery slice: video feed, linked detail routes, API adapter, loading/error states, and automated accessibility/component checks.
 
 ## Todo
 
@@ -30,6 +30,8 @@ This file tracks active work so both developers and both Codex instances know wh
 - [ ] Prepare deployment configuration.
 
 ## Completed
+
+- [x] Scaffold the Next.js frontend and build a responsive photo discovery prototype with typed demo data, functioning filters, persistent local saves, detail dialogs, and synthetic Vibe Checks.
 
 - [x] Initialize Python project.
 - [x] Set up Git repository.
