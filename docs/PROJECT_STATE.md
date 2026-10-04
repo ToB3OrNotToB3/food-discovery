@@ -6,7 +6,7 @@ Last updated: 4 October 2026
 
 The project is under active development.
 
-Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype; the full vertical video discovery slice remains in progress.
+Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype and a linked vertical stock-video preview. The full discovery slice remains in progress.
 
 ## Completed
 
@@ -47,7 +47,7 @@ Active ownership is maintained in `docs/TASKS.md`.
 
 ## Incomplete / Not Yet Implemented
 
-- Vertical video feed and full feed loading/error/offline states
+- Full feed loading/error/offline states, production video delivery, and validated media fallback
 - API-compatible mock adapter and URL-driven filters (current prototype uses local UI state)
 - Agreed production API contract
 - Working FastAPI routes
@@ -68,11 +68,11 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
-- The current photo feed is a visual prototype, not completion of the first vertical slice. Photos require external network access. No live venue data, directions, ordering, or video playback is connected.
+- The stock-video feed at `/watch` is a prototype. All three media URLs responded to HEAD requests, but in-browser playback has not been verified here. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
 
 ## Recommended Next Step
 
-Implement the vertical media feed next. Coordinate the draft API contract with Vansh before integrating real endpoints, and add the required component/accessibility gates before a frontend PR.
+Verify video playback and mobile controls in a normal browser, then optimize media delivery and add the remaining feed failure states. Coordinate the draft API contract with Vansh before integrating real endpoints, and add component/accessibility gates before a frontend PR.
 
 ## Restaurant Page Milestone
 
