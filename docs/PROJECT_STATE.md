@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 29 September 2026
+Last updated: 4 October 2026
 
 ## Current Status
 
@@ -36,18 +36,18 @@ The project currently contains:
 
 The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
-No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, restaurant detail dialogs, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`.
+No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`.
 
 ## Current Work
 
 - Developer 1 — Vansh: define and record the next backend or API task and coordinate the initial frontend API contract.
-- Developer 2 — Satyam: scaffold the frontend foundation and implement the first vertical discovery slice.
+- Developer 2 — Satyam: complete the vertical video feed and remaining first-slice quality gates.
 
 Active ownership is maintained in `docs/TASKS.md`.
 
 ## Incomplete / Not Yet Implemented
 
-- Vertical video feed, linked restaurant routes, and full loading/error/offline states
+- Vertical video feed and full feed loading/error/offline states
 - API-compatible mock adapter and URL-driven filters (current prototype uses local UI state)
 - Agreed production API contract
 - Working FastAPI routes
@@ -72,4 +72,11 @@ Active ownership is maintained in `docs/TASKS.md`.
 
 ## Recommended Next Step
 
-Review the redesigned prototype with Satyam, then implement the vertical media feed and linked detail routes. Coordinate the draft API contract with Vansh before integrating real endpoints, and add the required component/accessibility gates before a frontend PR.
+Implement the vertical media feed next. Coordinate the draft API contract with Vansh before integrating real endpoints, and add the required component/accessibility gates before a frontend PR.
+
+## Restaurant Page Milestone
+
+- `/restaurants/[slug]` now provides a direct, refreshable page for each fictional place, with page metadata, sample menu pricing, and transparent synthetic Vibe Checks.
+- Feed cards link to these pages. Shared save state uses `frontend/src/features/saves/useSavedPlaces.ts`, with validated versioned storage and a visit-only fallback when writes fail.
+- Copy-link actions include a manual-copy fallback. Localhost links work only on the same computer until the app is deployed.
+- Restaurant routes include loading, retry and missing-place screens. No real venue contact details, location claims, or ordering links are fabricated.
