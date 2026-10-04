@@ -168,6 +168,10 @@ Record these when finalized:
 - CI/CD strategy
 - external restaurant/data providers
 
+## 2026-10-03 - External reviews for Vibe Check
+
+Vibe Check is planned to use both reviews submitted through the app and reviews from external sources. External integration is a later-stage requirement; no provider or access method has been selected. Preserve source information and avoid duplicate counting when combining reviews. Source inclusion, weighting, and permitted use remain to be decided. This does not change the initial alpha's synthetic, read-only review scope or authorize using external reviews as training data.
+
 
 ## 2026-09-29 - Initial sentiment API
 

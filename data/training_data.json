@@ -1,0 +1,122 @@
+[
+  {
+    "text": "The garlic noodles were packed with flavour, and every bite was worth it.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "Our waitress helped us choose dishes and made us feel really welcome.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "That mango cheesecake was so good we ordered another slice to share.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "Finally found a cafe that makes strong coffee without burning it. Loved it.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "The thali was filling, tasty, and surprisingly affordable.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "ngl these tacos slapped, especially with the green salsa 🔥",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "I wasn't expecting much from a station cafe, but the breakfast was excellent.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "They handled my request for a less spicy curry perfectly. Really enjoyed dinner.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "The grilled prawns were juicy and the lemon sauce made them even better.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "Such a peaceful spot for brunch, with lovely food and thoughtful service.",
+    "label": "POSITIVE"
+  },
+  {
+    "text": "The rice was still hard in the middle, and the curry had almost no flavour.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "We booked a table, but they gave it away and offered no apology.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "The milkshake tasted like watered-down syrup. Definitely not worth the money.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "My takeaway bag was missing half the order, and nobody answered the phone.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "The music was painfully loud and ruined what should have been a relaxed dinner.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "bro the wrap was basically all cabbage 😭 such a waste of money",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "I wanted to like this place, but the stale bread made the sandwich unpleasant.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "They charged us for drinks we never ordered and argued when we pointed it out.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "The dessert looked impressive but tasted overwhelmingly of artificial flavouring.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "Nobody cleaned our table despite two requests. I won't be returning.",
+    "label": "NEGATIVE"
+  },
+  {
+    "text": "The cafe is on the second floor, above a stationery shop.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "Our group ordered three lunch specials and two bottles of water.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "The menu lists vegetarian dishes on a separate page.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "We collected our takeaway order at 6:30 and ate it at home.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "They serve breakfast until eleven and switch to the lunch menu afterward.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "had the set lunch today. pretty average overall.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "The soup was ordinary. I don't have a strong opinion about it.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "There are six tables inside and a counter where customers place orders.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "I chose the regular portion rather than the large one.",
+    "label": "NEUTRAL"
+  },
+  {
+    "text": "The meal was neither impressive nor disappointing, just an average lunch.",
+    "label": "NEUTRAL"
+  }
+]

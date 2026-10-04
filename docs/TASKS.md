@@ -15,6 +15,7 @@ Current tasks:
 - [ ] Organize the FastAPI backend into a maintainable MVP structure.
 - [ ] Coordinate the first discovery API contract with Satyam before changing shared response shapes.
 - [ ] Build and improve the sentiment/model pipeline.
+- [ ] Vansh: practise a reproducible, stratified 24/6 training/test split of the synthetic review dataset, then expand representative labelled data before assessing model quality.
 - [ ] Define restaurant data model.
 - [ ] Define review data model.
 - [ ] Create restaurant API endpoints.
@@ -58,6 +59,7 @@ Current tasks:
 These should not block the first usable release unless genuinely required:
 
 - [ ] Mobile application.
+- [ ] Vansh: select external review sources and permitted access methods, then integrate source attribution, restaurant matching, deduplication, and refresh handling; agree how external and in-app reviews contribute to Vibe Check.
 - [ ] CI/CD automation.
 - [ ] Centralized monitoring and observability.
 - [ ] Rate limiting.
@@ -70,6 +72,8 @@ These should not block the first usable release unless genuinely required:
 - [ ] Production-scale model serving, if justified by traffic.
 
 ## Completed
+
+- [x] Vansh: prepare 30 synthetic practice reviews (10 per sentiment label) and a script to inspect counts and validate nonblank text and accepted labels.
 
 - [x] Initialize Python project.
 - [x] Set up Git repository.

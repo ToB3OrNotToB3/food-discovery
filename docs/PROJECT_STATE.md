@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 29 September 2026
+Last updated: 5 October 2026
 
 ## Product Stage
 
@@ -18,6 +18,7 @@ The product is expected to eventually include:
 - a mobile application
 - a shared backend/API
 - restaurant and review functionality
+- Vibe Check using both in-app reviews and external reviews in a later stage; external providers and integration are not yet selected or implemented
 - ML/model-driven sentiment functionality
 - persistent production data
 - real user accounts
@@ -61,6 +62,12 @@ The repository currently includes:
 The reusable sentiment module loads DistilBERT on CPU. The API accepts review text and returns a label and confidence without persisting reviews. The original demo separately computes an aggregate positive-review percentage from sample data; restaurant-level aggregation is not exposed by the API.
 
 On 29 September 2026, an in-process TestClient smoke check passed for health, real positive/negative model predictions, and rejection of blank, missing, and overlong input. No committed automated suite exists yet. The installed TestClient emitted an httpx deprecation warning; revisit its dependency when adding the test suite.
+
+## Sentiment Training Learning Progress
+
+`data/training_data.json` contains 30 AI-generated practice reviews: 10 each labelled POSITIVE, NEGATIVE, and NEUTRAL. `inspect_training_data.py` reads the UTF-8 JSON, rejects blank text and unsupported labels, and prints label counts. This small synthetic dataset is for learning, not evidence of real-world accuracy. The serving API still uses the original binary DistilBERT model; no custom model has been trained.
+
+Vansh's next learning step is a reproducible, stratified training/test split (24/6) using scikit-learn. This split is not implemented yet. Keep the earlier challenging evaluation examples separate from training; a larger representative dataset and fresh held-out evaluation will be needed for meaningful quality claims.
 
 ## Developer Ownership
 
