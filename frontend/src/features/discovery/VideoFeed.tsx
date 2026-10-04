@@ -7,82 +7,118 @@ import { useSavedPlaces } from "@/features/saves/useSavedPlaces";
 import { places, photoUrl } from "@/mocks/places";
 import { videoClips } from "@/mocks/video-clips";
 
+const reels = videoClips.map((clip) => ({ clip, place: places.find((place) => place.id === clip.placeId)! }));
+type Playback = "loading" | "playing" | "paused" | "blocked" | "failed";
+
 export default function VideoFeed() {
   const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(false);
+  const [playback, setPlayback] = useState<Playback>("loading");
   const [muted, setMuted] = useState(true);
-  const [failed, setFailed] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [failedClips, setFailedClips] = useState<string[]>([]);
   const [message, setMessage] = useState("");
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const touchStart = useRef<number | null>(null);
+  const feedRef = useRef<HTMLDivElement>(null);
+  const reelRefs = useRef<(HTMLElement | null)[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const activeRef = useRef(0);
+  const pausedByUser = useRef(false);
   const { saved, toggle } = useSavedPlaces();
-  const clip = videoClips[active];
-  const place = places.find((item) => item.id === clip.placeId)!;
 
   useEffect(() => {
-    if (!playing) return;
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = muted;
-    video.play().catch(() => { setPlaying(false); setLoading(false); setFailed(true); });
-  }, [active, playing, muted]);
-
-  useEffect(() => {
-    const pauseWhenHidden = () => {
-      if (document.hidden) { videoRef.current?.pause(); setPlaying(false); }
-    };
-    document.addEventListener("visibilitychange", pauseWhenHidden);
-    return () => document.removeEventListener("visibilitychange", pauseWhenHidden);
+    const feed = feedRef.current;
+    if (!feed) return;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      const index = reelRefs.current.indexOf(visible.target as HTMLElement);
+      if (index >= 0) setActive(index);
+    }, { root: feed, threshold: [0.6, 0.75] });
+    reelRefs.current.forEach((reel) => { if (reel) observer.observe(reel); });
+    return () => observer.disconnect();
   }, []);
 
-  function goTo(index: number) {
-    if (index < 0 || index >= videoClips.length) return;
-    videoRef.current?.pause();
-    setPlaying(false); setLoading(false); setFailed(false); setMessage(""); setActive(index);
+  useEffect(() => {
+    videoRefs.current.forEach((video) => { if (video) video.muted = muted; });
+  }, [muted]);
+
+  useEffect(() => {
+    activeRef.current = active;
+    pausedByUser.current = false;
+    videoRefs.current.forEach((video, index) => { if (index !== active) video?.pause(); });
+    const video = videoRefs.current[active];
+    if (!video) return;
+    let cancelled = false;
+    function play() {
+      if (!video || document.hidden || failedClips.includes(reels[active].clip.placeId)) return;
+      setPlayback("loading");
+      video.play().catch((error: DOMException) => {
+        if (!cancelled && error.name !== "AbortError") setPlayback("blocked");
+      });
+    }
+    function onVisibilityChange() {
+      if (document.hidden) video?.pause();
+      else if (!pausedByUser.current) play();
+    }
+    play();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => { cancelled = true; document.removeEventListener("visibilitychange", onVisibilityChange); video.pause(); };
+    // Failed clips are not retried automatically; moving to another clip still plays it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  function togglePlayback() {
+    const video = videoRefs.current[active];
+    if (!video || failedClips.includes(reels[active].clip.placeId)) return;
+    if (!video.paused) {
+      pausedByUser.current = true;
+      video.pause();
+      setPlayback("paused");
+    } else {
+      pausedByUser.current = false;
+      setPlayback("loading");
+      video.play().catch(() => setPlayback("blocked"));
+    }
   }
 
-  function togglePlay() {
-    if (failed) { setFailed(false); }
-    if (playing) { videoRef.current?.pause(); setPlaying(false); setLoading(false); }
-    else { setLoading(true); setPlaying(true); }
+  function save(placeId: string, name: string) {
+    const result = toggle(placeId);
+    setMessage(result.persistent ? `${name} ${result.active ? "saved" : "removed from saved"}.` : "Saved for this visit. Device storage is unavailable.");
   }
 
-  function save() {
-    const result = toggle(place.id);
-    setMessage(result.persistent
-      ? `${place.name} ${result.active ? "saved" : "removed from saved"}.`
-      : "Saved for this visit. Device storage is unavailable.");
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.target !== feedRef.current) return;
+    const direction = event.key === "ArrowDown" || event.key === "PageDown" ? 1 : event.key === "ArrowUp" || event.key === "PageUp" ? -1 : 0;
+    if (!direction && event.key !== "Home" && event.key !== "End") return;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? reels.length - 1 : active + direction;
+    event.preventDefault();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    reelRefs.current[Math.max(0, Math.min(reels.length - 1, next))]?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   }
 
   return <div className="watch-page">
     <header className="watch-header"><Link href="/" className="watch-back">← Discover</Link><span className="watch-logo">goodfind<span>.</span></span><span className="watch-demo">DEMO FOOTAGE</span></header>
-    <main className="watch-main">
-      <div className="watch-intro"><p className="eyebrow">FOOD IN MOTION</p><h1>One craving at a time.</h1><p>Short looks at the dishes. The footage is illustrative and was not filmed at these fictional places.</p></div>
-      <div className="watch-stage" onKeyDown={(event) => {
-        if (event.key === "ArrowDown") { event.preventDefault(); goTo(active + 1); }
-        if (event.key === "ArrowUp") { event.preventDefault(); goTo(active - 1); }
-      }} onTouchStart={(event) => { touchStart.current = event.touches[0]?.clientY ?? null; }} onTouchEnd={(event) => {
-        if (touchStart.current === null) return;
-        const delta = touchStart.current - (event.changedTouches[0]?.clientY ?? touchStart.current);
-        if (Math.abs(delta) > 60) goTo(active + (delta > 0 ? 1 : -1));
-        touchStart.current = null;
-      }}>
-        <div className="watch-progress" aria-label={`Clip ${active + 1} of ${videoClips.length}`}>{videoClips.map((item, index) => <button key={item.placeId} aria-label={`Go to clip ${index + 1}: ${places.find((entry) => entry.id === item.placeId)?.dish}`} aria-current={active === index ? "true" : undefined} onClick={() => goTo(index)} className={active === index ? "current" : ""} />)}</div>
-        <div className="reel" aria-label={`${place.dish} video preview`}>
-          <Image className="reel-poster" src={photoUrl(place.photo, 1000)} alt="" fill unoptimized priority sizes="(max-width: 650px) 100vw, 420px" />
-          {playing && !failed && <video key={clip.placeId} ref={videoRef} className="reel-video" src={clip.source} playsInline muted={muted} loop preload="none" onCanPlay={() => setLoading(false)} onPlaying={() => setLoading(false)} onError={() => { setFailed(true); setPlaying(false); setLoading(false); }} aria-label={clip.caption} />}
-          <div className="reel-scrim" />
-          <span className="reel-demo">ILLUSTRATIVE STOCK FOOTAGE</span>
-          <button className="reel-play" onClick={togglePlay} aria-label={playing ? `Pause ${place.dish} video` : `Play ${place.dish} video`}>{loading ? "…" : playing ? "Ⅱ" : "▶"}</button>
-          <div className="reel-copy"><span className="reel-counter">{String(active + 1).padStart(2, "0")} / {String(videoClips.length).padStart(2, "0")}</span><h2>{place.dish}</h2><p>{clip.caption}</p><div className="reel-place"><span>{place.name} · {place.area}</span><strong>₹{place.price} <small>sample price</small></strong></div></div>
-        </div>
-        <div className="watch-controls"><button onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous clip">↑</button><button onClick={() => goTo(active + 1)} disabled={active === videoClips.length - 1} aria-label="Next clip">↓</button><button onClick={() => setMuted(!muted)} aria-label={muted ? "Unmute video" : "Mute video"} aria-pressed={!muted}>{muted ? "♫̸" : "♫"}</button><button onClick={save} aria-label={`${saved.includes(place.id) ? "Unsave" : "Save"} ${place.name}`} aria-pressed={saved.includes(place.id)}>{saved.includes(place.id) ? "♥" : "♡"}</button></div>
-      </div>
-      {failed && <p className="reel-alert" role="status">This stock clip isn’t available right now. You can still view the photo and restaurant details.</p>}
-      {message && <p className="reel-alert" role="status">{message}</p>}
-      <div className="watch-details"><p>Footage by {clip.creator} on Pexels. {clip.caption} The pictured food and its location are unrelated to this fictional listing.</p><Link href={`/restaurants/${place.id}`}>Open {place.name} details →</Link></div>
-      <p className="watch-hint">Swipe or use ↑ ↓ to move between clips. Playback starts when you press play.</p>
-    </main>
+    <div className="watch-feed" ref={feedRef} tabIndex={0} aria-label="Food video feed. Scroll or swipe for the next clip." onKeyDown={handleKeyDown}>
+      {reels.map(({ clip, place }, index) => {
+        const failed = failedClips.includes(clip.placeId);
+        const current = index === active;
+        return <article className="watch-slide" key={clip.placeId} ref={(node) => { reelRefs.current[index] = node; }} aria-label={`${index + 1} of ${reels.length}: ${place.dish}`}>
+          <div className="reel">
+            <Image className="reel-poster" src={photoUrl(place.photo, 1000)} alt="" fill unoptimized priority={index === 0} sizes="(max-width: 650px) 100vw, 480px" />
+            {!failed && <video ref={(node) => { videoRefs.current[index] = node; }} className="reel-video" src={clip.source} playsInline muted={muted} loop preload={index === 0 ? "metadata" : "none"} onPlaying={() => { if (activeRef.current === index) setPlayback("playing"); }} onError={() => { setFailedClips((previous) => previous.includes(clip.placeId) ? previous : [...previous, clip.placeId]); if (activeRef.current === index) setPlayback("failed"); }} aria-label={clip.caption} />}
+            <div className="reel-scrim" />
+            {!failed && <button className="reel-tap" onClick={togglePlayback} aria-label={current && playback === "playing" ? `Pause ${place.dish} video` : `Play ${place.dish} video`} tabIndex={current ? 0 : -1} />}
+            {current && (playback === "paused" || playback === "blocked") && <span className="reel-play-icon" aria-hidden="true">▶</span>}
+            <div className="reel-topline"><span className="reel-demo">ILLUSTRATIVE STOCK FOOTAGE</span><span className="reel-count">{String(index + 1).padStart(2, "0")} / {String(reels.length).padStart(2, "0")}</span></div>
+            <div className="reel-bottom"><div className="reel-copy"><span className="reel-area">{place.area} · ₹{place.price} sample price</span><h1>{place.dish}</h1><p>{clip.caption}</p><Link href={`/restaurants/${place.id}`} className="reel-place" tabIndex={current ? 0 : -1}>{place.name} <span aria-hidden="true">↗</span></Link><small>Stock clip by {clip.creator} on Pexels. Not filmed at this fictional venue.</small></div>
+              <div className="reel-actions"><button onClick={() => setMuted((value) => !value)} aria-label={muted ? "Unmute video" : "Mute video"} aria-pressed={!muted} tabIndex={current ? 0 : -1}><span aria-hidden="true">{muted ? "♩" : "♫"}</span><small>{muted ? "Sound off" : "Sound on"}</small></button><button onClick={() => save(place.id, place.name)} aria-label={`${saved.includes(place.id) ? "Unsave" : "Save"} ${place.name}`} aria-pressed={saved.includes(place.id)} tabIndex={current ? 0 : -1}><span aria-hidden="true">{saved.includes(place.id) ? "♥" : "♡"}</span><small>Save</small></button></div>
+            </div>
+            {current && failed && <p className="reel-alert" role="status">Clip unavailable. The place preview is still here.</p>}
+            {current && playback === "blocked" && !failed && <p className="reel-alert" role="status">Tap the video to start playback.</p>}
+            {index === 0 && <span className="reel-scroll-hint" aria-hidden="true">SWIPE OR SCROLL FOR MORE ↓</span>}
+          </div>
+        </article>;
+      })}
+    </div>
+    <div className="watch-position" aria-hidden="true">{reels.map(({ clip }, index) => <span key={clip.placeId} className={index === active ? "current" : ""} />)}</div>
+    {message && <p className="watch-toast" role="status" onAnimationEnd={() => setMessage("")}>{message}</p>}
   </div>;
 }

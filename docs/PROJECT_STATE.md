@@ -6,7 +6,7 @@ Last updated: 4 October 2026
 
 The project is under active development.
 
-Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype and a linked vertical stock-video preview. The full discovery slice remains in progress.
+Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype and a swipe/scroll vertical stock-video feed. The full discovery slice remains in progress.
 
 ## Completed
 
@@ -68,11 +68,11 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
-- The stock-video feed at `/watch` is a prototype. All three media URLs responded to HEAD requests, but in-browser playback has not been verified here. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
+- The stock-video feed at `/watch` now scroll-snaps between full-screen clips, automatically plays the visible clip muted, pauses off-screen clips, and keeps poster/error fallback. In-browser playback and mobile gesture behavior still need hands-on verification. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
 
 ## Recommended Next Step
 
-Verify video playback and mobile controls in a normal browser, then optimize media delivery and add the remaining feed failure states. Coordinate the draft API contract with Vansh before integrating real endpoints, and add component/accessibility gates before a frontend PR.
+Verify autoplay, swipe/scroll behavior, sound controls, and fallback on real mobile browsers, then optimize media delivery and add the remaining feed failure states. Coordinate the draft API contract with Vansh before integrating real endpoints, and add component/accessibility gates before a frontend PR.
 
 ## Restaurant Page Milestone
 

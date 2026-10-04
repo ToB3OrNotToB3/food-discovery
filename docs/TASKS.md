@@ -11,7 +11,7 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ### Developer 2 — Satyam
 
-- [ ] Complete the first vertical discovery slice: verify and optimize video delivery, add API adapter and feed loading/error states, and automate accessibility/component checks.
+- [ ] Complete the first vertical discovery slice: verify autoplay and swiping on real mobile browsers, optimize video delivery, add API adapter and feed loading/error states, and automate accessibility/component checks.
 
 ## Todo
 
@@ -30,6 +30,8 @@ This file tracks active work so both developers and both Codex instances know wh
 - [ ] Prepare deployment configuration.
 
 ## Completed
+
+- [x] Replace button-driven clip navigation with a full-screen swipe/scroll feed and muted autoplay for the visible clip.
 
 - [x] Add an illustrative vertical video preview with controlled playback, accessible controls, poster fallback, local saving, linked restaurant details, and media provenance.
 
