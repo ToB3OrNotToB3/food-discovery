@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import RestaurantActions from "@/features/restaurants/RestaurantActions";
+import ClipsIcon from "@/components/ClipsIcon";
 import { places, photoUrl } from "@/mocks/places";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,7 +28,7 @@ export default async function RestaurantPage({ params }: Props) {
   if (!place) notFound();
 
   return <div className="restaurant-page">
-    <header className="restaurant-top"><Link href="/" className="restaurant-back">← Back to discovery</Link><span className="demo-badge">FICTIONAL DEMO PLACE</span></header>
+    <header className="restaurant-top"><Link href="/" className="restaurant-back">← Back to discovery</Link><div className="restaurant-top-actions"><Link href="/watch" className="restaurant-clips"><ClipsIcon size={19} />Clips</Link><span className="demo-badge">FICTIONAL DEMO PLACE</span></div></header>
     <main className="restaurant-content">
       <div className="restaurant-hero"><Image src={photoUrl(place.photo, 1400)} alt={place.dish} fill unoptimized priority sizes="(max-width: 700px) 100vw, 1000px" /><span className="stock-label">Illustrative stock photo</span><span className="restaurant-tag">{place.tag}</span></div>
       <div className="restaurant-columns">
