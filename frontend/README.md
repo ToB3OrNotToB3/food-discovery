@@ -4,7 +4,7 @@ The web client for the Food Discovery project. The current home screen is an ear
 
 ## Run locally
 
-Requirements: Node.js 20.9 or newer and pnpm 10 or newer.
+Requirements: Node.js 24 (or Node.js 22.12+) and pnpm 11. The app itself supports older Node versions, but the test runner requires these supported versions.
 
 ```sh
 pnpm install
@@ -16,6 +16,7 @@ Open [http://localhost:3000](http://localhost:3000). Useful checks:
 ```sh
 pnpm lint
 pnpm typecheck
+pnpm test
 pnpm build
 ```
 

@@ -6,7 +6,7 @@ Last updated: 4 October 2026
 
 The project is under active development.
 
-Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype and a swipe/scroll vertical stock-video feed. The full discovery slice remains in progress.
+Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype, a swipe/scroll vertical stock-video feed, and an initial component-test gate. The full discovery slice remains in progress.
 
 ## Completed
 
@@ -36,7 +36,7 @@ The project currently contains:
 
 The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
-No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`.
+No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`. `pnpm test` runs initial Vitest/React Testing Library checks for primary navigation, filtering, and saving.
 
 ## Current Work
 
@@ -57,7 +57,7 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Frontend-to-backend integration
 - Authentication and authorization
 - Production validation and error handling
-- Automated testing and CI
+- Broader automated component and accessibility coverage, browser E2E tests, and CI (the first component tests now exist)
 - Observability and analytics
 - Deployment setup
 
@@ -72,7 +72,7 @@ Active ownership is maintained in `docs/TASKS.md`.
 
 ## Recommended Next Step
 
-Verify autoplay, swipe/scroll behavior, sound controls, and fallback on real mobile browsers, then optimize media delivery and add the remaining feed failure states. Coordinate the draft API contract with Vansh before integrating real endpoints, and add component/accessibility gates before a frontend PR.
+Verify autoplay, swipe/scroll behavior, sound controls, and fallback on real mobile browsers, then optimize media delivery and add the remaining feed failure states. Expand component tests and add the first browser/accessibility smoke check. Coordinate the draft API contract with Vansh before integrating real endpoints.
 
 ## Restaurant Page Milestone
 
