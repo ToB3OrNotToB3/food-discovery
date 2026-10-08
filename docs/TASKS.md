@@ -31,6 +31,8 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ## Completed
 
+- [x] Add simulated video-feed checks for visible-clip autoplay, sound, keyboard movement, blocked autoplay, and failed-media fallback.
+
 - [x] Add a Vitest/React Testing Library test gate for Clips navigation, discovery filtering, and device-local saving.
 
 - [x] Replace button-driven clip navigation with a full-screen swipe/scroll feed and muted autoplay for the visible clip.

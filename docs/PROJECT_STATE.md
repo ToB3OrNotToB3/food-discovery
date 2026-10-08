@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 4 October 2026
+Last updated: 8 October 2026
 
 ## Current Status
 
@@ -36,7 +36,7 @@ The project currently contains:
 
 The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
 
-No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`. `pnpm test` runs initial Vitest/React Testing Library checks for primary navigation, filtering, and saving.
+No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`. `pnpm test` checks primary navigation, filtering, saving, and simulated video playback, sound, keyboard movement, and media failure.
 
 ## Current Work
 
@@ -68,7 +68,7 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
-- The stock-video feed at `/watch` now scroll-snaps between full-screen clips, automatically plays the visible clip muted, pauses off-screen clips, and keeps poster/error fallback. In-browser playback and mobile gesture behavior still need hands-on verification. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
+- The stock-video feed at `/watch` now scroll-snaps between full-screen clips, automatically plays the visible clip muted, pauses off-screen clips, and keeps poster/error fallback. Component tests simulate these transitions, but playback and touch gestures still need verification on a physical phone. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
 
 ## Recommended Next Step
 
