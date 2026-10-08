@@ -17,7 +17,6 @@ export default function VideoFeed() {
   const [failedClips, setFailedClips] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const feedRef = useRef<HTMLDivElement>(null);
-  const reelRefs = useRef<(HTMLElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const activeRef = useRef(0);
   const pausedByUser = useRef(false);
@@ -26,14 +25,19 @@ export default function VideoFeed() {
   useEffect(() => {
     const feed = feedRef.current;
     if (!feed) return;
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const index = reelRefs.current.indexOf(visible.target as HTMLElement);
-      if (index >= 0) setActive(index);
-    }, { root: feed, threshold: [0.6, 0.75] });
-    reelRefs.current.forEach((reel) => { if (reel) observer.observe(reel); });
-    return () => observer.disconnect();
+    function syncActiveClip() {
+      if (!feed || !feed.clientHeight) return;
+      const index = Math.max(0, Math.min(reels.length - 1, Math.round(feed.scrollTop / feed.clientHeight)));
+      activeRef.current = index;
+      setActive((previous) => previous === index ? previous : index);
+    }
+    feed.addEventListener("scroll", syncActiveClip, { passive: true });
+    window.addEventListener("resize", syncActiveClip);
+    syncActiveClip();
+    return () => {
+      feed.removeEventListener("scroll", syncActiveClip);
+      window.removeEventListener("resize", syncActiveClip);
+    };
   }, []);
 
   useEffect(() => {
@@ -91,7 +95,7 @@ export default function VideoFeed() {
     const next = event.key === "Home" ? 0 : event.key === "End" ? reels.length - 1 : active + direction;
     event.preventDefault();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    reelRefs.current[Math.max(0, Math.min(reels.length - 1, next))]?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    feedRef.current?.scrollTo({ top: Math.max(0, Math.min(reels.length - 1, next)) * feedRef.current.clientHeight, behavior: reducedMotion ? "auto" : "smooth" });
   }
 
   return <div className="watch-page">
@@ -100,16 +104,17 @@ export default function VideoFeed() {
       {reels.map(({ clip, place }, index) => {
         const failed = failedClips.includes(clip.placeId);
         const current = index === active;
-        return <article className="watch-slide" key={clip.placeId} ref={(node) => { reelRefs.current[index] = node; }} aria-label={`${index + 1} of ${reels.length}: ${place.dish}`}>
+        return <article className="watch-slide" key={clip.placeId} aria-label={`${index + 1} of ${reels.length}: ${place.dish}`}>
           <div className="reel">
             <Image className="reel-poster" src={photoUrl(place.photo, 1000)} alt="" fill unoptimized priority={index === 0} sizes="(max-width: 650px) 100vw, 480px" />
-            {!failed && <video ref={(node) => { videoRefs.current[index] = node; }} className="reel-video" src={clip.source} playsInline muted={muted} loop preload={index === 0 ? "metadata" : "none"} onPlaying={() => { if (activeRef.current === index) setPlayback("playing"); }} onError={() => { setFailedClips((previous) => previous.includes(clip.placeId) ? previous : [...previous, clip.placeId]); if (activeRef.current === index) setPlayback("failed"); }} aria-label={clip.caption} />}
+            {!failed && <video ref={(node) => { videoRefs.current[index] = node; }} className="reel-video" src={`/api/demo-media/${clip.placeId}`} playsInline muted={muted} loop preload={index === 0 ? "metadata" : "none"} onPlaying={() => { if (activeRef.current === index) setPlayback("playing"); }} onWaiting={() => { if (activeRef.current === index) setPlayback("loading"); }} onError={() => { setFailedClips((previous) => previous.includes(clip.placeId) ? previous : [...previous, clip.placeId]); if (activeRef.current === index) setPlayback("failed"); }} aria-label={clip.caption} />}
             <div className="reel-scrim" />
             {!failed && <button className="reel-tap" onClick={togglePlayback} aria-label={current && playback === "playing" ? `Pause ${place.dish} video` : `Play ${place.dish} video`} tabIndex={current ? 0 : -1} />}
             {current && (playback === "paused" || playback === "blocked") && <span className="reel-play-icon" aria-hidden="true">▶</span>}
+            {current && playback === "loading" && !failed && <span className="reel-loading" role="status">Loading clip…</span>}
             <div className="reel-topline"><span className="reel-demo">ILLUSTRATIVE STOCK FOOTAGE</span><span className="reel-count">{String(index + 1).padStart(2, "0")} / {String(reels.length).padStart(2, "0")}</span></div>
             <div className="reel-bottom"><div className="reel-copy"><span className="reel-area">{place.area} · ₹{place.price} sample price</span><h1>{place.dish}</h1><p>{clip.caption}</p><Link href={`/restaurants/${place.id}`} className="reel-place" tabIndex={current ? 0 : -1}>{place.name} <span aria-hidden="true">↗</span></Link><small>Stock clip by {clip.creator} on Pexels. Not filmed at this fictional venue.</small></div>
-              <div className="reel-actions"><button onClick={() => setMuted((value) => !value)} aria-label={muted ? "Unmute video" : "Mute video"} aria-pressed={!muted} tabIndex={current ? 0 : -1}><span aria-hidden="true">{muted ? "♩" : "♫"}</span><small>{muted ? "Sound off" : "Sound on"}</small></button><button onClick={() => save(place.id, place.name)} aria-label={`${saved.includes(place.id) ? "Unsave" : "Save"} ${place.name}`} aria-pressed={saved.includes(place.id)} tabIndex={current ? 0 : -1}><span aria-hidden="true">{saved.includes(place.id) ? "♥" : "♡"}</span><small>Save</small></button></div>
+              <div className="reel-actions">{clip.hasAudio ? <button onClick={() => setMuted((value) => !value)} aria-label={muted ? "Unmute video" : "Mute video"} aria-pressed={!muted} tabIndex={current ? 0 : -1}><span aria-hidden="true">{muted ? "♩" : "♫"}</span><small>{muted ? "Sound off" : "Sound on"}</small></button> : <span className="reel-no-audio"><span aria-hidden="true">♩</span><small>No audio</small></span>}<button onClick={() => save(place.id, place.name)} aria-label={`${saved.includes(place.id) ? "Unsave" : "Save"} ${place.name}`} aria-pressed={saved.includes(place.id)} tabIndex={current ? 0 : -1}><span aria-hidden="true">{saved.includes(place.id) ? "♥" : "♡"}</span><small>Save</small></button></div>
             </div>
             {current && failed && <p className="reel-alert" role="status">Clip unavailable. The place preview is still here.</p>}
             {current && playback === "blocked" && !failed && <p className="reel-alert" role="status">Tap the video to start playback.</p>}

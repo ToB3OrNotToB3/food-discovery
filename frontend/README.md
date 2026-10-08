@@ -13,6 +13,8 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000). Useful checks:
 
+For a phone or another browser using this computer's Wi-Fi address, set `GOODFIND_DEV_ORIGIN` to that address before starting the development server (for example, `192.168.1.6`). This lets Next.js serve its development assets to the LAN preview.
+
 ```sh
 pnpm lint
 pnpm typecheck

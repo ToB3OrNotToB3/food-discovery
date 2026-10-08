@@ -84,6 +84,18 @@ See `docs/FRONTEND_ARCHITECTURE.md`.
 
 ---
 
+## 2026-10-08 — Demo Video Delivery
+
+### Decision
+
+Stream the allowlisted Pexels demo clips through a same-origin Next.js route that forwards byte-range requests. Keep this route limited to prototype media; production video hosting remains undecided.
+
+### Reason
+
+The direct external video sources failed in the app browser. Same-origin delivery lets the feed request playable video ranges without adding large stock files to Git.
+
+---
+
 ## Future Decisions
 
 Add entries here when making important choices such as:

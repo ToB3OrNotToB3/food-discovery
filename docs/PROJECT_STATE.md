@@ -68,11 +68,11 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
-- The stock-video feed at `/watch` now scroll-snaps between full-screen clips, automatically plays the visible clip muted, pauses off-screen clips, and keeps poster/error fallback. Component tests simulate these transitions, but playback and touch gestures still need verification on a physical phone. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
+- The stock-video feed at `/watch` scroll-snaps between full-screen clips, tracks the active clip from scroll position, streams allowlisted Pexels media through a same-origin demo route with byte-range support, and keeps poster/error fallback. Only the burger clip has an audio track; the other clips explicitly say “No audio.” Component tests simulate these transitions, but playback and touch gestures still need verification in the target browsers. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
 
 ## Recommended Next Step
 
-Verify autoplay, swipe/scroll behavior, sound controls, and fallback on real mobile browsers, then optimize media delivery and add the remaining feed failure states. Expand component tests and add the first browser/accessibility smoke check. Coordinate the draft API contract with Vansh before integrating real endpoints.
+Recheck autoplay, swipe/scroll behavior, the burger clip's sound toggle, and fallback in the target browsers. Then replace the 52 MB biryani source with an optimized file and add the remaining feed failure states. Expand component tests and add the first browser/accessibility smoke check. Coordinate the draft API contract with Vansh before integrating real endpoints.
 
 ## Restaurant Page Milestone
 

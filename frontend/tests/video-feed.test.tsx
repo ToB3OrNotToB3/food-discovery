@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import VideoFeed from "@/features/discovery/VideoFeed";
 
-let onIntersection: IntersectionObserverCallback;
 let played: HTMLMediaElement[];
 let paused: HTMLMediaElement[];
 
@@ -13,12 +12,6 @@ beforeEach(() => {
   played = [];
   paused = [];
 
-  class MockIntersectionObserver {
-    constructor(callback: IntersectionObserverCallback) { onIntersection = callback; }
-    observe() {}
-    disconnect() {}
-  }
-  vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
   vi.stubGlobal("matchMedia", vi.fn(() => ({ matches: false })));
   vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(function (this: HTMLMediaElement) {
     played.push(this);
@@ -29,9 +22,12 @@ beforeEach(() => {
   });
 });
 
-async function show(slide: Element) {
+async function show(index: number) {
+  const feed = screen.getByLabelText("Food video feed. Scroll or swipe for the next clip.");
+  Object.defineProperty(feed, "clientHeight", { configurable: true, value: 600 });
+  Object.defineProperty(feed, "scrollTop", { configurable: true, value: index * 600 });
   await act(async () => {
-    onIntersection([{ target: slide, isIntersecting: true, intersectionRatio: 0.75 } as IntersectionObserverEntry], {} as IntersectionObserver);
+    fireEvent.scroll(feed);
   });
 }
 
@@ -39,13 +35,12 @@ describe("video feed", () => {
   it("autoplays muted and switches playback to the visible clip", async () => {
     const { container } = render(<VideoFeed />);
     const videos = [...container.querySelectorAll("video")];
-    const slides = [...container.querySelectorAll(".watch-slide")];
-
     await waitFor(() => expect(played).toContain(videos[0]));
+    expect(videos[0].getAttribute("src")).toBe("/api/demo-media/dosa-social");
     expect(videos[0].muted).toBe(true);
     expect(played).not.toContain(videos[1]);
 
-    await show(slides[1]);
+    await show(1);
     await waitFor(() => expect(played).toContain(videos[1]));
     expect(paused).toContain(videos[0]);
   });
@@ -53,12 +48,14 @@ describe("video feed", () => {
   it("lets the viewer turn sound on for the active clip", async () => {
     const user = userEvent.setup();
     const { container } = render(<VideoFeed />);
-    const firstSlide = container.querySelector(".watch-slide") as HTMLElement;
-    const firstVideo = firstSlide.querySelector("video") as HTMLVideoElement;
+    await show(1);
+    const secondSlide = container.querySelectorAll(".watch-slide")[1] as HTMLElement;
+    const secondVideo = secondSlide.querySelector("video") as HTMLVideoElement;
 
-    await user.click(within(firstSlide).getByRole("button", { name: "Unmute video" }));
-    expect(firstVideo.muted).toBe(false);
-    expect(within(firstSlide).getByRole("button", { name: "Mute video" })).toHaveAttribute("aria-pressed", "true");
+    expect(within(container.querySelector(".watch-slide") as HTMLElement).getByText("No audio")).toBeInTheDocument();
+    await user.click(within(secondSlide).getByRole("button", { name: "Unmute video" }));
+    expect(secondVideo.muted).toBe(false);
+    expect(within(secondSlide).getByRole("button", { name: "Mute video" })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("offers a tap to play when the browser blocks autoplay", async () => {
@@ -68,7 +65,7 @@ describe("video feed", () => {
     const { container } = render(<VideoFeed />);
     const firstSlide = container.querySelector(".watch-slide") as HTMLElement;
 
-    expect(await screen.findByRole("status")).toHaveTextContent("Tap the video to start playback.");
+    await waitFor(() => expect(screen.getByText("Tap the video to start playback.")).toBeInTheDocument());
     await user.click(within(firstSlide).getByRole("button", { name: "Play Ghee masala dosa video" }));
     expect(play).toHaveBeenCalledTimes(2);
   });
@@ -77,13 +74,13 @@ describe("video feed", () => {
     const { container } = render(<VideoFeed />);
     const feed = screen.getByLabelText("Food video feed. Scroll or swipe for the next clip.");
     const firstSlide = container.querySelector(".watch-slide") as HTMLElement;
-    const secondSlide = container.querySelectorAll(".watch-slide")[1] as HTMLElement;
-    const scrollIntoView = vi.fn();
-    secondSlide.scrollIntoView = scrollIntoView;
+    const scrollTo = vi.fn();
+    Object.defineProperty(feed, "clientHeight", { configurable: true, value: 600 });
+    feed.scrollTo = scrollTo;
 
     feed.focus();
     fireEvent.keyDown(feed, { key: "ArrowDown" });
-    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
+    expect(scrollTo).toHaveBeenCalledWith({ top: 600, behavior: "smooth" });
 
     fireEvent.error(firstSlide.querySelector("video") as HTMLVideoElement);
     expect(screen.getByRole("status")).toHaveTextContent("Clip unavailable");
