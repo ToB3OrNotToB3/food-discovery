@@ -15,7 +15,10 @@
 .reel-tap { position: absolute; z-index: 3; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
 .reel-tap:focus-visible { outline: 3px solid var(--orange); outline-offset: -5px; }
 .reel-play-icon { position: absolute; z-index: 4; left: 50%; top: 48%; transform: translate(-50%, -50%); width: 66px; height: 66px; border-radius: 50%; background: #ffffffd9; color: #171916; display: grid; place-items: center; font-size: 25px; pointer-events: none; }
-.reel-loading { position: absolute; z-index: 4; left: 50%; top: 48%; transform: translate(-50%, -50%); padding: 9px 14px; border-radius: 20px; background: #11140fc9; color: #fff; font-size: 12px; font-weight: 700; pointer-events: none; }
+.reel-loading { position: absolute; z-index: 4; left: 50%; top: 48%; transform: translate(-50%, -50%); width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #11140f4d; pointer-events: none; animation: reel-loading-appear .2s ease .3s both; }
+.reel-loading-ring { width: 24px; height: 24px; border: 2px solid #ffffff70; border-top-color: #fff; border-right-color: var(--orange); border-radius: 50%; animation: reel-loading-spin .85s linear infinite; }
+@keyframes reel-loading-appear { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reel-loading-spin { to { transform: rotate(360deg); } }
 .reel-topline { position: absolute; z-index: 4; top: 88px; left: 22px; right: 22px; display: flex; justify-content: space-between; align-items: center; gap: 10px; pointer-events: none; }
 .reel-demo { border: 1px solid #ffffff70; background: #11140f9c; padding: 7px 9px; border-radius: 4px; font-size: 8px; font-weight: 800; letter-spacing: .6px; }
 .reel-count { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-shadow: 0 1px 8px #000; }
@@ -44,4 +47,4 @@
 .watch-toast { position: fixed; z-index: 12; left: 50%; bottom: 22px; transform: translateX(-50%); max-width: calc(100vw - 30px); margin: 0; padding: 11px 15px; border-radius: 8px; background: #edf1e1; color: #22291c; font-size: 12px; font-weight: 700; box-shadow: 0 8px 30px #0006; animation: watch-toast 3s forwards; }
 @keyframes watch-toast { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (max-width: 650px) { .watch-header { height: 62px; padding: 0 17px; }.watch-logo { font-size: 19px; }.watch-demo { font-size: 7px; }.reel-topline { top: 72px; left: 17px; right: 17px; }.reel-bottom { left: 17px; right: 11px; bottom: max(37px, env(safe-area-inset-bottom)); }.reel-copy p { font-size: 12px; }.reel-copy small { font-size: 9px; }.watch-position { right: 8px; top: 33%; }.watch-position span { width: 3px; height: 14px; }.watch-position span.current { height: 22px; } }
-@media (prefers-reduced-motion: reduce) { .watch-feed { scroll-behavior: auto; }.watch-toast { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .watch-feed { scroll-behavior: auto; }.watch-toast, .reel-loading, .reel-loading-ring { animation: none; } }
