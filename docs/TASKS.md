@@ -1,67 +1,115 @@
 # Tasks
 
-This file tracks active work so both developers and both Codex instances know who is working on what.
+This file tracks active work, developer ownership, and startup-stage priorities.
 
 ## In Progress
 
-### Developer 1 — Vansh
+### Vansh — Developer 1
 
-- [ ] Define and record the next backend or API task before implementation.
-- [ ] Coordinate the initial frontend API contract with Satyam before changing shared response shapes.
+Primary responsibility:
+- backend
+- APIs
+- ML/model development
 
-### Developer 2 — Satyam
-
-- [ ] Complete the first vertical discovery slice: verify autoplay and swiping on real mobile browsers, add the API adapter and initial accessibility/browser smoke checks, and coordinate the API contract with Vansh.
-
-## Todo
-
-- [ ] Organize the FastAPI backend into a clear production structure.
+Current tasks:
+- [ ] Organize the FastAPI backend into a maintainable MVP structure.
+- [ ] Coordinate the first discovery API contract with Satyam before changing shared response shapes.
+- [ ] Build and improve the sentiment/model pipeline.
+- [ ] Vansh: practise a reproducible, stratified 24/6 training/test split of the synthetic review dataset, then expand representative labelled data before assessing model quality.
 - [ ] Define restaurant data model.
 - [ ] Define review data model.
 - [ ] Create restaurant API endpoints.
 - [ ] Create review API endpoints.
 - [ ] Connect review data to sentiment analysis.
+- [ ] Add backend validation and useful error handling.
+- [ ] Add focused backend/model tests for critical flows.
+
+### Satyam — Developer 2
+
+Primary responsibility:
+- frontend
+- web UI
+- future mobile UI
+
+Current tasks:
+- [ ] Verify feed autoplay, swipe/scroll, sound, and failure recovery on target mobile browsers.
+- [ ] Add the first browser/accessibility smoke check.
+- [ ] Coordinate the first discovery API contract with Vansh, then add an API-compatible mock adapter.
+- [ ] Connect frontend components to live backend APIs after the shared contract and endpoints exist.
+- [ ] Add URL-driven filters and broaden loading, empty, and error coverage.
+
+## MVP Todo
+
+- [ ] Implement the first discovery slice defined in `docs/PRODUCT_BRIEF.md` after agreeing its API contract.
 - [ ] Replace sample reviews with real stored/retrieved reviews.
-- [ ] Decide on a database.
-- [ ] Connect frontend to backend.
-- [ ] Add validation and error handling.
-- [ ] Add tests.
-- [ ] Add authentication if required.
-- [ ] Prepare deployment configuration.
+- [ ] Select a production-suitable but simple database.
+- [ ] Connect frontend and backend end-to-end.
+- [ ] Add basic user authentication if required by the MVP.
+- [ ] Add integration tests for critical flows.
+- [ ] Prepare a simple deployment setup.
+- [ ] Deploy the first usable web MVP.
+- [ ] Collect real user feedback.
+
+## Later / Post-MVP
+
+These should not block the first usable release unless genuinely required:
+
+- [ ] Mobile application.
+- [ ] Vansh: select external review sources and permitted access methods, then integrate source attribution, restaurant matching, deduplication, and refresh handling; agree how external and in-app reviews contribute to Vibe Check.
+- [ ] CI/CD automation.
+- [ ] Centralized monitoring and observability.
+- [ ] Rate limiting.
+- [ ] Advanced analytics.
+- [ ] Background job infrastructure.
+- [ ] Caching layer.
+- [ ] High-scale architecture.
+- [ ] Service decomposition / microservices, if justified.
+- [ ] Advanced recommendation/personalization systems.
+- [ ] Production-scale model serving, if justified by traffic.
 
 ## Completed
 
-- [x] Replace the 52 MB biryani demo source in the feed with a 1.25 MB local encode and load media only for the visible clip.
-- [x] Add bounded video loading, offline poster messaging, retry after media failure, and component checks for these states.
-
-- [x] Repair the demo video feed's clip tracking and media delivery; expose sound controls only for clips with audio tracks.
-
-- [x] Add simulated video-feed checks for visible-clip autoplay, sound, keyboard movement, blocked autoplay, and failed-media fallback.
-
-- [x] Add a Vitest/React Testing Library test gate for Clips navigation, discovery filtering, and device-local saving.
-
-- [x] Replace button-driven clip navigation with a full-screen swipe/scroll feed and muted autoplay for the visible clip.
-
-- [x] Add an illustrative vertical video preview with controlled playback, accessible controls, poster fallback, local saving, linked restaurant details, and media provenance.
-
-- [x] Add shareable restaurant routes, shared persistent saving, copy-link fallback, and restaurant loading/error/not-found screens.
-
-- [x] Scaffold the Next.js frontend and build a responsive photo discovery prototype with typed demo data, functioning filters, persistent local saves, detail dialogs, and synthetic Vibe Checks.
+- [x] Satyam: define the Phase 1 frontend architecture and scaffold the Next.js web client.
+- [x] Satyam: build fictional discovery filters, restaurant pages, local saves, and a swipe/scroll video feed with component tests.
+- [x] Satyam: optimize the biryani demo clip to 1.25 MB and add visible-clip loading, offline messaging, timeout, and retry.
+- [x] Vansh: prepare 30 synthetic practice reviews (10 per sentiment label) and a script to inspect counts and validate nonblank text and accepted labels.
 
 - [x] Initialize Python project.
 - [x] Set up Git repository.
 - [x] Test sentiment-analysis model.
 - [x] Calculate positive-review percentage from sample reviews.
-- [x] Add shared `AGENTS.md` instructions for Codex collaboration.
+- [x] Add shared `AGENTS.md` instructions.
+- [x] Add shared project documentation.
+- [x] Assign developer ownership.
 - [x] Complete Phase 0 product definition in `docs/PRODUCT_BRIEF.md`.
-- [x] Define Phase 1 frontend architecture, technology choices, API boundary, and quality gates.
+- [x] Implement reusable sentiment loading and prediction.
+- [x] Add health and sentiment API endpoints with startup model loading and schema validation.
+- [x] Manually verify health, real positive/negative inference, and invalid-input rejection with TestClient (29 September 2026); automated regression tests remain pending.
 
 ## Task Ownership Rule
 
-Before starting substantial work, assign the task to one developer in the `In Progress` section.
+Vansh owns backend, model, and API work.
+
+Satyam owns frontend work and will own mobile UI work when mobile development begins.
+
+If a task affects both areas, coordinate before making overlapping changes.
 
 When a task is finished:
 
 1. move it to `Completed`
 2. update `PROJECT_STATE.md`
-3. record any major technical decision in `DECISIONS.md`
+3. update `ARCHITECTURE.md` if system structure changed
+4. record major technical decisions in `DECISIONS.md`
+
+## Startup Priority Rule
+
+Do not allow long-term scale work to block MVP delivery unless there is a clear near-term requirement.
+
+Prefer:
+
+- small validated steps
+- clean boundaries
+- simple deployment
+- maintainable code
+
+over premature infrastructure complexity.

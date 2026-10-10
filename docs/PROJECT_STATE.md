@@ -2,81 +2,136 @@
 
 Last updated: 11 October 2026
 
-## Current Status
+## Product Stage
 
-The project is under active development. The video feed now limits media loading to the visible clip and has explicit loading timeout, retry, and offline poster states.
+The project is currently in the early MVP / validation stage.
 
-Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype, a swipe/scroll vertical stock-video feed, and an initial component-test gate. The full discovery slice remains in progress.
+The immediate goal is to build a small but usable product, validate the core experience, and keep development manageable for a two-person team.
+
+The long-term goal is to evolve the product into a full-scale startup with production web and mobile applications, real users, persistent data, deployment infrastructure, and scalable services where justified.
+
+## Current Product Direction
+
+The product is expected to eventually include:
+
+- a web application
+- a mobile application
+- a shared backend/API
+- restaurant and review functionality
+- Vibe Check using both in-app reviews and external reviews in a later stage; external providers and integration are not yet selected or implemented
+- ML/model-driven sentiment functionality
+- persistent production data
+- real user accounts
+- production deployment
+
+The current implementation should remain simpler than the long-term architecture.
+
+## Product and Frontend Milestone
+
+Phase 0 product definition is complete in `docs/PRODUCT_BRIEF.md`, including the Bangalore audience, V1 discovery journey, content policy, success metrics, and monetization direction. The initial alpha uses read-only synthetic reviews; public review submission is outside its scope.
+
+Satyam completed Phase 1 frontend architecture in `docs/FRONTEND_ARCHITECTURE.md` and built a Next.js prototype with discovery filters, shareable fictional restaurant pages, local saving, and a vertical stock-video feed. Production discovery response shapes still require agreement with Vansh.
 
 ## Completed
 
-- Python project environment created.
-- FastAPI and Uvicorn introduced for the backend.
-- A sentiment-analysis model has been tested successfully.
-- Individual review sentiment can be classified.
-- Sentiment model loading and single-review prediction have been moved into the reusable `app/sentiment.py` module.
-- A simple review aggregation prototype can calculate the percentage of positive reviews.
-- Shared Codex collaboration instructions have been added through `AGENTS.md`.
-- Phase 0 product definition, V1 boundaries, prototype-content policy, success metrics, and monetization direction have been documented in `docs/PRODUCT_BRIEF.md`.
-- Developer ownership and the next frontend task have been recorded in `docs/TASKS.md`.
-- The frontend foundation, structure, data flow, quality gates, and first vertical slice are defined in `docs/FRONTEND_ARCHITECTURE.md`.
+- Python project environment created
+- Git repository configured
+- FastAPI backend introduced
+- Uvicorn introduced for local serving
+- sentiment-analysis model tested successfully
+- individual review sentiment can be classified
+- prototype positive-review percentage calculation created
+- shared Codex collaboration instructions added
+- shared project documentation added
+- Phase 0 product definition completed
+- reusable model loading and prediction implemented in `app/sentiment.py`
+- `GET /health` and `POST /sentiment` implemented in `app/main.py`, with startup model loading and request/response validation
+- Next.js frontend scaffolded in `frontend/` with fictional discovery content, restaurant pages, shared local saves, and a swipe/scroll video feed
+- Video feed limited to the visible clip, with a 1.25 MB local biryani encode, offline poster messaging, loading timeout, retry, and component checks
 
 ## Current Implementation
 
-The project currently contains:
+The repository currently includes:
 
-- a Python backend foundation
+- a Python backend
 - an `app/` directory
-- request and response schemas for sentiment analysis
-- a sentiment-analysis demo
-- reusable model-loading and prediction functions in `app/sentiment.py`
-- project dependencies in `requirements.txt`
+- a Next.js frontend in `frontend/`
+- a sentiment-analysis prototype
+- dependencies in `requirements.txt`
 - Git version control
-- shared project documentation and Codex instructions
+- shared Codex instructions
+- shared development documentation
 
-The reusable sentiment module loads DistilBERT on CPU and returns a positive or negative label with confidence for an individual review. The original demo still works with sample reviews and produces an aggregate positive-review percentage.
+The reusable sentiment module loads DistilBERT on CPU. The API accepts review text and returns a label and confidence without persisting reviews. The original demo separately computes an aggregate positive-review percentage from sample data; restaurant-level aggregation is not exposed by the API.
 
-No working FastAPI routes exist yet. The frontend in `frontend/` supports cuisine, area, budget and vegetarian filters, token-based search, a device-local saved list, shareable restaurant pages, and explicitly synthetic Vibe Checks. Typed fictional data lives in `frontend/src/mocks/places.ts`; interaction code lives in `frontend/src/features/discovery/Discovery.tsx`. Photo sources and licence provenance are recorded in `frontend/MEDIA_MANIFEST.md`. `pnpm test` checks primary navigation, filtering, saving, and simulated video playback, sound, keyboard movement, and media failure.
+On 29 September 2026, an in-process TestClient smoke check passed for health, real positive/negative model predictions, and rejection of blank, missing, and overlong input. No committed backend automated suite exists yet. The installed TestClient emitted an httpx deprecation warning; revisit its dependency when adding the test suite.
 
-## Current Work
+The frontend uses typed fictional data in `frontend/src/mocks/places.ts` and labels synthetic Vibe Checks. `/watch` plays allowlisted stock footage; dosa and burger stream through a same-origin demo route, while biryani uses an optimized local MP4. Only the active clip receives a video URL. `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 component tests), and `pnpm build` passed on 11 October 2026. Browser and real-device playback checks remain open.
 
-- Developer 1 — Vansh: define and record the next backend or API task and coordinate the initial frontend API contract.
-- Developer 2 — Satyam: complete the vertical video feed and remaining first-slice quality gates.
+## Sentiment Training Learning Progress
 
-Active ownership is maintained in `docs/TASKS.md`.
+`data/training_data.json` contains 30 AI-generated practice reviews: 10 each labelled POSITIVE, NEGATIVE, and NEUTRAL. `inspect_training_data.py` reads the UTF-8 JSON, rejects blank text and unsupported labels, and prints label counts. This small synthetic dataset is for learning, not evidence of real-world accuracy. The serving API still uses the original binary DistilBERT model; no custom model has been trained.
 
-## Incomplete / Not Yet Implemented
+Vansh's next learning step is a reproducible, stratified training/test split (24/6) using scikit-learn. This split is not implemented yet. Keep the earlier challenging evaluation examples separate from training; a larger representative dataset and fresh held-out evaluation will be needed for meaningful quality claims.
 
-- Production video delivery and real-device validation of feed loading/error/offline fallback
-- API-compatible mock adapter and URL-driven filters (current prototype uses local UI state)
-- Agreed production API contract
-- Working FastAPI routes
-- Restaurant, dish, and review models
-- Persistent database storage
-- Real restaurant and review data integration
-- Frontend-to-backend integration
-- Authentication and authorization
-- Production validation and error handling
-- Broader automated component and accessibility coverage, browser E2E tests, and CI (the first component tests now exist)
-- Observability and analytics
-- Deployment setup
+## Developer Ownership
 
-## Known Issues / Limitations
+### Vansh — Developer 1
+Working primarily on:
+- backend
+- APIs
+- ML/model development
+- backend service logic
+- data/backend integration
 
-- Restaurant, dish, review, image, and video content is currently mock or not yet created.
-- Sentiment aggregation is still a prototype rather than a complete application feature.
-- Model confidence for a single review is not a restaurant rating.
-- The frontend framework is decided; exact API response shapes still require coordination between both developers.
-- Public review submission is outside the initial alpha scope.
-- The stock-video feed at `/watch` scroll-snaps between full-screen clips, tracks the active clip from scroll position, and loads video only for that clip. Dosa and burger stream through the same-origin demo route; biryani uses a 1.25 MB local encode of the 52 MB source. It keeps poster, offline, retry, and loading-timeout states. Only the burger clip has an audio track; the other clips explicitly say “No audio.” Component tests simulate these transitions, but playback and touch gestures still need verification in target browsers. No live venue data, directions, or ordering is connected.
+### Satyam — Developer 2
+Working primarily on:
+- frontend
+- web UI
+- frontend/backend integration
+- future mobile UI
+
+## MVP Priorities
+
+1. Finish the discovery slice and agree its API contract before live frontend/backend integration.
+2. Make the backend API structure clean enough for frontend consumption.
+3. Build the initial web experience.
+4. Persist real data.
+5. Connect sentiment functionality to real review data.
+6. Validate the product before adding large-scale infrastructure.
+
+## Not Yet Implemented / Finalized
+
+- production database
+- real restaurant/review data integration
+- final authentication system
+- production-ready API contracts
+- complete frontend application and real-device feed validation
+- mobile application
+- deployment pipeline
+- production hosting
+- CI/CD
+- monitoring and observability
+- rate limiting
+- full automated test coverage
+- production security hardening
+- analytics
+- large-scale performance architecture
+
+## Startup Scaling Principle
+
+Do not overengineer for hypothetical scale.
+
+Current priorities are:
+
+- ship a usable MVP
+- validate assumptions
+- maintain clean interfaces
+- keep the codebase understandable
+- avoid choices that unnecessarily prevent future growth
+
+Scale-oriented infrastructure should be introduced only when real usage or technical constraints justify it.
 
 ## Recommended Next Step
 
-Recheck autoplay, swipe/scroll behavior, the burger clip's sound toggle, and fallback in target mobile browsers. Add the first browser/accessibility smoke check, then coordinate the draft API contract with Vansh before integrating real endpoints.
-
-## Restaurant Page Milestone
-
-- `/restaurants/[slug]` now provides a direct, refreshable page for each fictional place, with page metadata, sample menu pricing, and transparent synthetic Vibe Checks.
-- Feed cards link to these pages. Shared save state uses `frontend/src/features/saves/useSavedPlaces.ts`, with validated versioned storage and a visit-only fallback when writes fail.
-- Copy-link actions include a manual-copy fallback. Localhost links work only on the same computer until the app is deployed.
-- Restaurant routes include loading, retry and missing-place screens. No real venue contact details, location claims, or ordering links are fabricated.
+Verify autoplay, scrolling, sound, and fallback in target mobile browsers, then add an accessibility/browser smoke check. Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.

@@ -1,8 +1,80 @@
-# Technical Decisions
+# Technical and Product Decisions
 
-This file records important technical and architectural decisions.
+This file records important technical, architectural, and product-direction decisions.
 
 Do not record minor implementation details here.
+
+---
+
+## 2026-09-28 — Startup Product Direction
+
+### Decision
+
+The project will start as a small MVP but is intended to evolve into a full-scale startup product.
+
+### Implication
+
+Development should prioritize:
+
+- rapid validation
+- maintainable code
+- simple architecture
+- clear interfaces
+- production-aware decisions
+
+Avoid both disposable prototype hacks and premature large-scale infrastructure.
+
+---
+
+## 2026-09-28 — Web and Mobile Product
+
+### Decision
+
+The long-term product will support both web and mobile applications.
+
+### Implication
+
+Where practical, both clients should consume the same backend API and share the same core business logic.
+
+The web app is expected to be developed before the mobile app unless priorities change.
+
+---
+
+## 2026-09-28 — MVP-First Architecture
+
+### Decision
+
+Use the simplest architecture that supports the MVP while preserving reasonable future evolution.
+
+### Current Direction
+
+Prefer a modular monolith over microservices during the early stage.
+
+### Reason
+
+The team is small and the product has not yet reached a scale where distributed infrastructure is justified.
+
+### Revisit When
+
+Consider service separation only if real requirements appear, such as:
+
+- independent scaling needs
+- deployment isolation
+- significant team growth
+- operational bottlenecks
+- model-serving constraints
+
+---
+
+## 2026-09-28 — Shared Backend API
+
+### Decision
+
+The web and future mobile clients should use the same backend API wherever practical.
+
+### Reason
+
+This reduces duplicated business logic and creates a consistent product backend.
 
 ---
 
@@ -14,7 +86,7 @@ Use FastAPI for the Python backend.
 
 ### Reason
 
-The project is Python-based and includes ML functionality, so FastAPI provides a convenient way to expose application and ML features through APIs.
+The project is Python-based and includes ML functionality, and FastAPI provides a suitable API layer for application and ML features.
 
 ---
 
@@ -22,7 +94,7 @@ The project is Python-based and includes ML functionality, so FastAPI provides a
 
 ### Decision
 
-The current sentiment prototype represents restaurant/review sentiment as the percentage of reviews classified as positive.
+The current sentiment prototype represents sentiment as the percentage of reviews classified as positive.
 
 ### Example
 
@@ -35,7 +107,7 @@ Positive sentiment = 60%
 
 ### Note
 
-This is the current prototype behavior and can be revised later if product requirements change.
+This is the current prototype behavior and can be revised if product requirements change.
 
 ---
 
@@ -55,7 +127,29 @@ Use Git-tracked project documentation as the shared context layer between both d
 
 ### Reason
 
-Codex chat histories on separate computers should not be treated as shared project memory. Important context should live in the repository.
+Codex chat histories on separate computers should not be treated as shared project memory.
+
+---
+
+## 2026-09-28 — Developer Ownership
+
+### Decision
+
+Vansh owns:
+
+- backend
+- APIs
+- ML/model work
+
+Satyam owns:
+
+- frontend
+- web UI
+- future mobile UI
+
+### Reason
+
+Clear ownership reduces conflicting changes and helps both Codex instances understand responsibilities.
 
 ---
 
@@ -63,24 +157,11 @@ Codex chat histories on separate computers should not be treated as shared proje
 
 ### Decision
 
-Build the frontend in a new `frontend/` directory using Next.js App Router, TypeScript with strict checking, pnpm, Tailwind CSS with design tokens, and accessible native or Radix-based UI primitives.
-
-Use server rendering by default for public pages and add client-side data management only where the infinite feed, search, or mutations require it. FastAPI remains the backend source of truth.
+Build the web client in `frontend/` using Next.js App Router, strict TypeScript, pnpm, Tailwind CSS design tokens, and accessible native or Radix-based UI primitives. Render public pages on the server by default; use client state where interaction requires it. FastAPI remains the backend source of truth.
 
 ### Reason
 
-The product needs fast public restaurant pages, app-like navigation, an interactive mobile feed, and a typed boundary that can move from demo content to FastAPI without rewriting presentation components.
-
-### Constraints
-
-- Do not duplicate backend business logic in Next.js.
-- Do not add global state or major dependencies without a concrete requirement.
-- Target WCAG 2.2 AA and the Core Web Vitals "good" thresholds.
-- Keep the hosting provider and authentication solution undecided until their requirements are known.
-
-### Detail
-
-See `docs/FRONTEND_ARCHITECTURE.md`.
+The product needs linkable restaurant pages and an interactive mobile feed without duplicating backend business logic. Production discovery API shapes still require agreement between Vansh and Satyam. See `docs/FRONTEND_ARCHITECTURE.md`.
 
 ---
 
@@ -88,24 +169,33 @@ See `docs/FRONTEND_ARCHITECTURE.md`.
 
 ### Decision
 
-Stream the allowlisted Pexels demo clips through a same-origin Next.js route that forwards byte-range requests. Keep this route limited to prototype media; production video hosting remains undecided.
-
-As of 11 October 2026, serve the biryani clip as a locally optimized 720 × 1280 MP4 because the original 52 MB Pexels file is excessive for the demo feed. Keep its Pexels source and licence recorded in `frontend/MEDIA_MANIFEST.md`. The other two clips continue through the demo proxy.
+Stream allowlisted Pexels demo clips through a same-origin Next.js route with byte-range support. As of 11 October 2026, serve the biryani clip as a locally optimized 720 × 1280 MP4 rather than its 52 MB source. Keep media provenance in `frontend/MEDIA_MANIFEST.md`. Production video hosting remains undecided.
 
 ### Reason
 
-The direct external video sources failed in the app browser. Same-origin delivery lets the feed request playable video ranges without adding large stock files to Git.
+Direct external playback failed in the app browser, and the large biryani source was excessive for the prototype feed.
 
 ---
 
-## Future Decisions
+## Decisions Still To Be Made
 
-Add entries here when making important choices such as:
+Record these when finalized:
 
-- database selection
-- frontend framework
-- authentication method
-- external APIs/services
-- deployment platform
-- major API contract changes
-- significant architecture changes
+- mobile framework
+- database
+- authentication approach
+- hosting/deployment provider
+- production model-serving approach
+- analytics stack
+- monitoring/error-reporting tools
+- CI/CD strategy
+- external restaurant/data providers
+
+## 2026-10-03 - External reviews for Vibe Check
+
+Vibe Check is planned to use both reviews submitted through the app and reviews from external sources. External integration is a later-stage requirement; no provider or access method has been selected. Preserve source information and avoid duplicate counting when combining reviews. Source inclusion, weighting, and permitted use remain to be decided. This does not change the initial alpha's synthetic, read-only review scope or authorize using external reviews as training data.
+
+
+## 2026-09-29 - Initial sentiment API
+
+`POST /sentiment` accepts a JSON object with `text` (trimmed, 1-2,000 characters) and returns `label` plus `confidence` between 0 and 1. Invalid input uses FastAPI's HTTP 422 response. A synchronous endpoint reuses the CPU analyzer loaded once per process through FastAPI lifespan. This is an inference-only development endpoint, not persisted review submission or a restaurant rating. The first discovery API contract remains to be coordinated with the frontend; the alpha content and review boundaries in `docs/PRODUCT_BRIEF.md` still apply.

@@ -1,6 +1,6 @@
 # Product Brief
 
-Last updated: 28 September 2026
+Last updated: 3 October 2026
 
 ## Product Vision
 
@@ -68,6 +68,12 @@ The Vibe Check represents the percentage of reviews classified as positive. It m
 - limitations and an insufficient-data state
 
 Model confidence for one review must never be presented as a restaurant rating.
+
+### Planned Review Sources
+
+Vibe Check will eventually use both reviews submitted through the app and reviews from external sources. External review integration is planned for a later stage; providers and access methods are not yet selected. The initial alpha continues to use labelled synthetic reviews.
+
+Review records should preserve their source and source identifiers so reviews can be attributed, matched to the correct restaurant, updated, and deduplicated. Decide source inclusion and weighting before combining sources into a restaurant score. Access and permitted use must be confirmed for each provider; permission to analyze reviews does not automatically establish permission to use them for model training.
 
 ### Initial Alpha
 
