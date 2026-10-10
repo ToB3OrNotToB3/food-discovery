@@ -11,7 +11,7 @@ This file tracks active work so both developers and both Codex instances know wh
 
 ### Developer 2 — Satyam
 
-- [ ] Complete the first vertical discovery slice: verify autoplay and swiping on real mobile browsers, optimize video delivery, add API adapter and feed loading/error states, and expand component/accessibility checks.
+- [ ] Complete the first vertical discovery slice: verify autoplay and swiping on real mobile browsers, add the API adapter and initial accessibility/browser smoke checks, and coordinate the API contract with Vansh.
 
 ## Todo
 
@@ -30,6 +30,9 @@ This file tracks active work so both developers and both Codex instances know wh
 - [ ] Prepare deployment configuration.
 
 ## Completed
+
+- [x] Replace the 52 MB biryani demo source in the feed with a 1.25 MB local encode and load media only for the visible clip.
+- [x] Add bounded video loading, offline poster messaging, retry after media failure, and component checks for these states.
 
 - [x] Repair the demo video feed's clip tracking and media delivery; expose sound controls only for clips with audio tracks.
 

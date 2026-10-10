@@ -17,6 +17,7 @@ export const videoClips = [
   {
     placeId: "rice-radio",
     source: "https://videos.pexels.com/video-files/36886083/15625154_2160_3840_24fps.mp4",
+    optimizedSrc: "/demo-media/rice-radio.mp4",
     caption: "A cook prepares steaming biryani in a kitchen.",
     creator: "Subhrajyoti Paul",
     hasAudio: false,

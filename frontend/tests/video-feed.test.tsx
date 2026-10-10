@@ -38,11 +38,16 @@ describe("video feed", () => {
     await waitFor(() => expect(played).toContain(videos[0]));
     expect(videos[0].getAttribute("src")).toBe("/api/demo-media/dosa-social");
     expect(videos[0].muted).toBe(true);
+    expect(videos[1]).not.toHaveAttribute("src");
     expect(played).not.toContain(videos[1]);
 
     await show(1);
     await waitFor(() => expect(played).toContain(videos[1]));
     expect(paused).toContain(videos[0]);
+    expect(videos[0]).not.toHaveAttribute("src");
+
+    await show(2);
+    expect(videos[2]).toHaveAttribute("src", "/demo-media/rice-radio.mp4");
   });
 
   it("lets the viewer turn sound on for the active clip", async () => {
@@ -87,5 +92,41 @@ describe("video feed", () => {
     expect(firstSlide.querySelector("video")).toBeNull();
     expect(firstSlide.querySelector("img")).not.toBeNull();
     expect(within(firstSlide).getByRole("link", { name: /Dosa Social/ })).toHaveAttribute("href", "/restaurants/dosa-social");
+  });
+
+  it("shows the poster offline and resumes the active clip after reconnecting", async () => {
+    let online = true;
+    vi.spyOn(window.navigator, "onLine", "get").mockImplementation(() => online);
+    const { container } = render(<VideoFeed />);
+    const video = container.querySelector("video") as HTMLVideoElement;
+    await waitFor(() => expect(played).toContain(video));
+
+    online = false;
+    fireEvent(window, new Event("offline"));
+    expect(screen.getByText(/You’re offline/)).toBeInTheDocument();
+    expect(video).not.toHaveAttribute("src");
+    expect(paused).toContain(video);
+
+    online = true;
+    fireEvent(window, new Event("online"));
+    await waitFor(() => expect(played.filter((item) => item === video)).toHaveLength(2));
+    expect(video).toHaveAttribute("src", "/api/demo-media/dosa-social");
+  });
+
+  it("stops waiting on a stalled clip and lets the viewer retry", () => {
+    vi.useFakeTimers();
+    try {
+      const { container } = render(<VideoFeed />);
+      const firstSlide = container.querySelector(".watch-slide") as HTMLElement;
+      act(() => vi.advanceTimersByTime(12000));
+
+      expect(screen.getByText("Clip unavailable. The place preview is still here.")).toBeInTheDocument();
+      expect(firstSlide.querySelector("video")).toBeNull();
+      fireEvent.click(screen.getByRole("button", { name: "Try video again" }));
+      expect(firstSlide.querySelector("video")).not.toBeNull();
+      expect(played).toHaveLength(2);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

@@ -1,10 +1,10 @@
 # Project State
 
-Last updated: 8 October 2026
+Last updated: 11 October 2026
 
 ## Current Status
 
-The project is under active development.
+The project is under active development. The video feed now limits media loading to the visible clip and has explicit loading timeout, retry, and offline poster states.
 
 Phase 0 product definition and Phase 1 frontend architecture are complete. A Python/FastAPI backend has been started and the reusable sentiment-analysis module is implemented. The Next.js frontend now has a responsive photo discovery prototype, a swipe/scroll vertical stock-video feed, and an initial component-test gate. The full discovery slice remains in progress.
 
@@ -47,7 +47,7 @@ Active ownership is maintained in `docs/TASKS.md`.
 
 ## Incomplete / Not Yet Implemented
 
-- Full feed loading/error/offline states, production video delivery, and validated media fallback
+- Production video delivery and real-device validation of feed loading/error/offline fallback
 - API-compatible mock adapter and URL-driven filters (current prototype uses local UI state)
 - Agreed production API contract
 - Working FastAPI routes
@@ -68,11 +68,11 @@ Active ownership is maintained in `docs/TASKS.md`.
 - Model confidence for a single review is not a restaurant rating.
 - The frontend framework is decided; exact API response shapes still require coordination between both developers.
 - Public review submission is outside the initial alpha scope.
-- The stock-video feed at `/watch` scroll-snaps between full-screen clips, tracks the active clip from scroll position, streams allowlisted Pexels media through a same-origin demo route with byte-range support, and keeps poster/error fallback. Only the burger clip has an audio track; the other clips explicitly say “No audio.” Component tests simulate these transitions, but playback and touch gestures still need verification in the target browsers. The biryani source is high resolution and about 52 MB. No live venue data, directions, or ordering is connected.
+- The stock-video feed at `/watch` scroll-snaps between full-screen clips, tracks the active clip from scroll position, and loads video only for that clip. Dosa and burger stream through the same-origin demo route; biryani uses a 1.25 MB local encode of the 52 MB source. It keeps poster, offline, retry, and loading-timeout states. Only the burger clip has an audio track; the other clips explicitly say “No audio.” Component tests simulate these transitions, but playback and touch gestures still need verification in target browsers. No live venue data, directions, or ordering is connected.
 
 ## Recommended Next Step
 
-Recheck autoplay, swipe/scroll behavior, the burger clip's sound toggle, and fallback in the target browsers. Then replace the 52 MB biryani source with an optimized file and add the remaining feed failure states. Expand component tests and add the first browser/accessibility smoke check. Coordinate the draft API contract with Vansh before integrating real endpoints.
+Recheck autoplay, swipe/scroll behavior, the burger clip's sound toggle, and fallback in target mobile browsers. Add the first browser/accessibility smoke check, then coordinate the draft API contract with Vansh before integrating real endpoints.
 
 ## Restaurant Page Milestone
 

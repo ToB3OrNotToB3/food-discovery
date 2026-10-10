@@ -8,7 +8,7 @@ type Context = { params: Promise<{ placeId: string }> };
 export async function GET(request: Request, { params }: Context) {
   const { placeId } = await params;
   const clip = videoClips.find((item) => item.placeId === placeId);
-  if (!clip) return new Response("Clip not found", { status: 404 });
+  if (!clip || "optimizedSrc" in clip) return new Response("Clip not found", { status: 404 });
 
   const range = request.headers.get("range");
   const headers = new Headers();

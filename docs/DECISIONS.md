@@ -90,6 +90,8 @@ See `docs/FRONTEND_ARCHITECTURE.md`.
 
 Stream the allowlisted Pexels demo clips through a same-origin Next.js route that forwards byte-range requests. Keep this route limited to prototype media; production video hosting remains undecided.
 
+As of 11 October 2026, serve the biryani clip as a locally optimized 720 × 1280 MP4 because the original 52 MB Pexels file is excessive for the demo feed. Keep its Pexels source and licence recorded in `frontend/MEDIA_MANIFEST.md`. The other two clips continue through the demo proxy.
+
 ### Reason
 
 The direct external video sources failed in the app browser. Same-origin delivery lets the feed request playable video ranges without adding large stock files to Git.
