@@ -1,6 +1,6 @@
 # Architecture
 
-Last updated: 29 September 2026
+Last updated: 11 October 2026
 
 Product scope and initial user journeys are defined in `docs/PRODUCT_BRIEF.md`.
 
@@ -70,24 +70,18 @@ The analyzer is loaded once per server process, including after development relo
 - `app/sentiment.py`: CPU model loading and prediction functions.
 - `app/schemas.py`: review text and prediction validation.
 - `app/main.py`: lifespan management, health, and sentiment endpoints.
-- Restaurant, dish, database, authentication, and frontend integration remain unimplemented.
+- `frontend/`: Next.js discovery prototype, restaurant pages, and vertical video feed backed by labelled fictional content.
+- Restaurant and dish backend data, database, authentication, and frontend/backend integration remain unimplemented.
 
 ## Web Client
 
 Satyam (Developer 2) owns frontend product and implementation work unless reassigned in `docs/TASKS.md`.
 
-Phase 1 architecture is in progress. No frontend framework has been committed yet. Before implementation, Phase 1 must document:
+The accepted Phase 1 foundation uses Next.js App Router, strict TypeScript, pnpm, Tailwind CSS design tokens, and accessible native or Radix-based UI primitives. `docs/FRONTEND_ARCHITECTURE.md` records the rendering, data, accessibility, performance, and testing direction.
 
-- framework and language choices
-- frontend repository structure
-- routing and rendering strategy
-- state and data-fetching approach
-- API client and error contract
-- mock-data strategy and transition to live APIs
-- accessibility, performance, security, testing, and observability gates
-- local development, CI, preview, and deployment workflow
+The current web client uses typed fictional data for discovery and restaurant pages. Its `/watch` feed loads only the visible clip, serves one optimized local MP4 and two allowlisted Pexels clips through a same-origin demo route, and exposes poster, offline, timeout, and retry states. These demo media choices are not a production hosting decision.
 
-The frontend must initially support typed mock data that matches the agreed FastAPI response shapes. Shared response shapes must be coordinated with Vansh (Developer 1) before either side changes them.
+The production discovery API response shapes are not yet agreed. Shared response shapes must be coordinated with Vansh (Developer 1) before either side depends on them.
 
 Primary responsibilities:
 
@@ -267,6 +261,7 @@ Preferred sequence:
 ```text
 food-discovery/
 ├── app/
+├── frontend/
 ├── sentiment_demo.py
 ├── requirements.txt
 ├── README.md
@@ -275,6 +270,7 @@ food-discovery/
     ├── PROJECT_STATE.md
     ├── TASKS.md
     ├── ARCHITECTURE.md
+    ├── FRONTEND_ARCHITECTURE.md
     └── DECISIONS.md
 ```
 

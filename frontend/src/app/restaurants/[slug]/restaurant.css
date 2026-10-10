@@ -1,0 +1,43 @@
+.restaurant-page { min-height: 100vh; }
+.restaurant-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 1100px; margin: auto; padding: 26px 30px; }
+.restaurant-back { color: #b83b17; font-size: 13px; font-weight: 700; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.restaurant-top-actions { display: flex; align-items: center; gap: 20px; }
+.restaurant-clips { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 800; }
+.restaurant-clips:hover { color: var(--orange); }
+.restaurant-content { max-width: 1100px; padding: 0 30px 50px; }
+.restaurant-hero { height: 370px; border-radius: 22px; position: relative; overflow: hidden; background: #ded8ce; }
+.restaurant-hero img { object-fit: cover; }
+.restaurant-tag { position: absolute; left: 25px; bottom: 25px; background: #e5ed9b; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; transform: rotate(-3deg); }
+.restaurant-columns { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: 55px; margin-top: 40px; }
+.restaurant-info h1 { font-size: clamp(32px,4vw,48px); font-weight: 800; letter-spacing: -1.8px; line-height: 1.1; margin: 10px 0; }
+.restaurant-category { color: var(--muted); font-size: 13px; }
+.restaurant-description { color: #65635d; font-size: 15px; line-height: 1.8; margin: 25px 0 32px; }
+.restaurant-info h2 { font-size: 21px; font-weight: 750; letter-spacing: -.5px; }
+.restaurant-info .dish-line { margin-top: 12px; padding-block: 24px; }
+.restaurant-info .vibe { margin-top: 28px; padding: 22px; }
+.restaurant-info .vibe h2 { font-size: 15px; margin: 0; }
+.restaurant-info .vibe p { font-size: 12px; }
+.restaurant-info .vibe small { font-size: 11px; }
+.restaurant-plan { align-self: start; background: #fff; border: 1px solid var(--line); padding: 26px; border-radius: 17px; }
+.restaurant-plan .note-star { color: var(--orange); font-size: 38px; }
+.restaurant-plan h2 { font-size: 28px; font-weight: 750; line-height: 1.15; letter-spacing: -.8px; margin: 15px 0; }
+.restaurant-plan>p { font-size: 13px; line-height: 1.7; color: var(--muted); }
+.restaurant-action-row { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.restaurant-action-row .detail-save { margin: 0; }
+.copy-link { background: #f6f5f0; border: 1px solid var(--line); min-height: 46px; border-radius: 9px; font-size: 12px; font-weight: 700; }
+.action-status { font-size: 11px; line-height: 1.6; color: #567138; margin: 10px 0 0; }
+.manual-link { display: block; font-size: 11px; margin-top: 10px; }
+.manual-link input { display: block; width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 5px; margin-top: 6px; }
+.restaurant-plan .demo-note { align-items: start; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+.more-places { margin-top: 50px; border-top: 1px solid var(--line); padding-top: 27px; }
+.more-places h2 { font-size: 23px; font-weight: 750; letter-spacing: -.5px; }
+.more-places>div { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+.more-places a { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: white; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); }
+.more-places a:hover { border-color: var(--orange); }
+.more-places strong { font-size: 15px; }
+.more-places small { display: block; font-size: 11px; color: var(--muted); margin-top: 7px; }
+.route-state { max-width: 650px; padding: 100px 25px; }
+.route-state h1 { font-size: 35px; line-height: 1.2; font-weight: 800; margin: 15px 0; }
+.route-state p { color: var(--muted); line-height: 1.7; }
+.route-state a,.route-state button { display: inline-flex; padding: 14px 20px; background: var(--orange); color: white; border-radius: 9px; margin: 20px 12px 0 0; text-decoration: none; }
+@media(max-width:750px) { .restaurant-columns { grid-template-columns: 1fr; gap: 27px; margin-top: 27px; }.restaurant-content { padding: 0 20px 40px; }.restaurant-top { padding: 15px 20px; }.restaurant-top .demo-badge { display: none; }.restaurant-hero { height: 280px; }.restaurant-plan { padding: 23px; }.more-places>div { grid-template-columns: 1fr; }.restaurant-tag { left: 16px; bottom: 42px; font-size: 12px; }.restaurant-info .vibe { padding: 17px; }.restaurant-info .vibe small { font-size: 10px; } }

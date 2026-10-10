@@ -32,15 +32,11 @@ Primary responsibility:
 - future mobile UI
 
 Current tasks:
-- [ ] Complete Phase 1 frontend architecture: technology choices, repository structure, API boundary, quality gates, and development workflow.
-- [ ] Define the initial web app structure based on the accepted Phase 1 decisions.
-- [ ] Build the first core user flow.
-- [ ] Create restaurant listing UI.
-- [ ] Create restaurant details UI.
-- [ ] Display review and sentiment information.
-- [ ] Connect frontend components to backend APIs.
-- [ ] Add loading, empty, and error states.
-- [ ] Keep frontend structure reusable enough for future product growth.
+- [ ] Verify feed autoplay, swipe/scroll, sound, and failure recovery on target mobile browsers.
+- [ ] Add the first browser/accessibility smoke check.
+- [ ] Coordinate the first discovery API contract with Vansh, then add an API-compatible mock adapter.
+- [ ] Connect frontend components to live backend APIs after the shared contract and endpoints exist.
+- [ ] Add URL-driven filters and broaden loading, empty, and error coverage.
 
 ## MVP Todo
 
@@ -73,6 +69,9 @@ These should not block the first usable release unless genuinely required:
 
 ## Completed
 
+- [x] Satyam: define the Phase 1 frontend architecture and scaffold the Next.js web client.
+- [x] Satyam: build fictional discovery filters, restaurant pages, local saves, and a swipe/scroll video feed with component tests.
+- [x] Satyam: optimize the biryani demo clip to 1.25 MB and add visible-clip loading, offline messaging, timeout, and retry.
 - [x] Vansh: prepare 30 synthetic practice reviews (10 per sentiment label) and a script to inspect counts and validate nonblank text and accepted labels.
 
 - [x] Initialize Python project.

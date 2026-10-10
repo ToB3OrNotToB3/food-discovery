@@ -153,11 +153,34 @@ Clear ownership reduces conflicting changes and helps both Codex instances under
 
 ---
 
+## 2026-09-28 — Frontend Foundation
+
+### Decision
+
+Build the web client in `frontend/` using Next.js App Router, strict TypeScript, pnpm, Tailwind CSS design tokens, and accessible native or Radix-based UI primitives. Render public pages on the server by default; use client state where interaction requires it. FastAPI remains the backend source of truth.
+
+### Reason
+
+The product needs linkable restaurant pages and an interactive mobile feed without duplicating backend business logic. Production discovery API shapes still require agreement between Vansh and Satyam. See `docs/FRONTEND_ARCHITECTURE.md`.
+
+---
+
+## 2026-10-08 — Demo Video Delivery
+
+### Decision
+
+Stream allowlisted Pexels demo clips through a same-origin Next.js route with byte-range support. As of 11 October 2026, serve the biryani clip as a locally optimized 720 × 1280 MP4 rather than its 52 MB source. Keep media provenance in `frontend/MEDIA_MANIFEST.md`. Production video hosting remains undecided.
+
+### Reason
+
+Direct external playback failed in the app browser, and the large biryani source was excessive for the prototype feed.
+
+---
+
 ## Decisions Still To Be Made
 
 Record these when finalized:
 
-- web frontend framework
 - mobile framework
 - database
 - authentication approach

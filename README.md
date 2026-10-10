@@ -22,6 +22,7 @@ A short-form restaurant video feed with review sentiment (Vibe Check), dish tagg
 - A basic FastAPI application with `GET /health`, returning `{"status": "ok"}`.
 - `POST /sentiment` validates review text and returns a label and confidence using the analyzer loaded once per server process at startup.
 - The health endpoint only checks that the API responds; it does not run a prediction.
+- A Next.js frontend prototype in `frontend/` supports fictional restaurant discovery, detail pages, device-local saves, and a short video feed.
 
 ## Structure
 
@@ -30,6 +31,7 @@ A short-form restaurant video feed with review sentiment (Vibe Check), dish tagg
 - `app/sentiment.py`: loads the sentiment pipeline and predicts a review's label and confidence; includes a standalone example.
 - `app/main.py`: FastAPI application with health and sentiment endpoints and model startup/shutdown lifecycle.
 - `app/__init__.py`: Python package marker.
+- `frontend/`: Next.js web client; see [`frontend/README.md`](frontend/README.md) for setup and checks.
 - `docs/`: shared project state, tasks, architecture, and decisions.
 - `AGENTS.md`: development and collaboration instructions.
 
@@ -67,6 +69,17 @@ Open http://127.0.0.1:8000/health to receive:
 
 Interactive API documentation is available at http://127.0.0.1:8000/docs. Keep the server running while using these URLs. `--reload` is for local development.
 
+## Run the frontend
+
+Install Node.js 24 (or 22.12+) and pnpm 11, then run from `frontend/`:
+
+```powershell
+pnpm install
+pnpm dev
+```
+
+Open http://localhost:3000 for discovery and http://localhost:3000/watch for the illustrative video feed. The frontend currently uses labelled fictional data and does not call the FastAPI service. Run `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` for its current checks.
+
 ## Test the sentiment API
 
 In http://127.0.0.1:8000/docs, expand `POST /sentiment`, choose **Try it out**, and submit:
@@ -87,7 +100,7 @@ The request schema strips surrounding whitespace and requires 1–2,000 characte
 
 ## Scope and collaboration
 
-The current implementation uses sample reviews. Persistent storage, restaurant/review endpoints, authentication, frontend integration, and deployment are not yet implemented. Video feeds, dish recognition, recommendations, and ordering links remain planned features.
+The current implementation uses sample reviews and fictional frontend content. Persistent storage, restaurant/review endpoints, authentication, frontend/backend integration, and deployment are not yet implemented. Production video delivery, dish recognition, recommendations, and ordering links remain planned features.
 
 Vansh owns backend, APIs, and ML work. Satyam owns frontend and future mobile UI work. The architecture direction is a modular monolith with a shared backend API; add infrastructure when concrete requirements justify it.
 
@@ -95,7 +108,7 @@ See [project state](docs/PROJECT_STATE.md), [tasks](docs/TASKS.md), [architectur
 
 ## Next learning step
 
-Coordinate the first discovery API contract with Satyam during Phase 1 frontend architecture. Phase 0 product definition is complete in `docs/PRODUCT_BRIEF.md`. Add focused automated tests and implement the agreed discovery slice; restaurant-level Vibe Check aggregation is not yet an API feature.
+Coordinate the first discovery API contract between Vansh and Satyam before connecting the web client to backend endpoints. Add focused backend tests and complete the frontend browser/accessibility checks; restaurant-level Vibe Check aggregation is not yet an API feature.
 
 
 ## Verification
