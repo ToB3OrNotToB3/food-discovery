@@ -177,6 +177,18 @@ Direct external playback failed in the app browser, and the large biryani source
 
 ---
 
+## 2026-10-11 — Frontend browser checks
+
+### Decision
+
+Use Playwright for a small real-browser smoke suite and axe for automatically detectable accessibility checks. Keep the existing Vitest component tests for isolated interactions.
+
+### Reason
+
+The discovery and Clips journeys need repeatable browser coverage before frontend/backend integration. Real-device playback and manual accessibility review remain separate checks.
+
+---
+
 ## Decisions Still To Be Made
 
 Record these when finalized:

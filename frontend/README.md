@@ -22,6 +22,15 @@ pnpm test
 pnpm build
 ```
 
+Browser smoke checks use Playwright and axe to exercise discovery and Clips in a real browser and scan for automatically detectable WCAG A/AA issues. Install the browser once, then run:
+
+```sh
+pnpm exec playwright install chromium
+pnpm test:browser
+```
+
+The smoke command reuses a running development server on port 3000 or starts one if needed. If Chromium is not installed but Google Chrome is available, set `PLAYWRIGHT_BROWSER_CHANNEL=chrome` when running it. Automated scans do not replace testing touch gestures, sound, and playback on a real phone.
+
 ## Project conventions
 
 - Keep product screens and domain logic organized by feature as the app grows.

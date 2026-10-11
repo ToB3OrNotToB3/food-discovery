@@ -48,6 +48,7 @@ Satyam completed Phase 1 frontend architecture in `docs/FRONTEND_ARCHITECTURE.md
 - `GET /health` and `POST /sentiment` implemented in `app/main.py`, with startup model loading and request/response validation
 - Next.js frontend scaffolded in `frontend/` with fictional discovery content, restaurant pages, shared local saves, and a swipe/scroll video feed
 - Video feed limited to the visible clip, with a 1.25 MB local biryani encode, offline poster messaging, loading timeout, retry, and component checks
+- Browser smoke checks for desktop discovery, restaurant navigation, and mobile-sized Clips, including automated WCAG A/AA scans; diet icon semantics and low-contrast text were corrected
 
 ## Current Implementation
 
@@ -66,7 +67,7 @@ The reusable sentiment module loads DistilBERT on CPU. The API accepts review te
 
 On 29 September 2026, an in-process TestClient smoke check passed for health, real positive/negative model predictions, and rejection of blank, missing, and overlong input. No committed backend automated suite exists yet. The installed TestClient emitted an httpx deprecation warning; revisit its dependency when adding the test suite.
 
-The frontend uses typed fictional data in `frontend/src/mocks/places.ts` and labels synthetic Vibe Checks. `/watch` plays allowlisted stock footage; dosa and burger stream through a same-origin demo route, while biryani uses an optimized local MP4. Only the active clip receives a video URL. `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 component tests), and `pnpm build` passed on 11 October 2026. Browser and real-device playback checks remain open.
+The frontend uses typed fictional data in `frontend/src/mocks/places.ts` and labels synthetic Vibe Checks. `/watch` plays allowlisted stock footage; dosa and burger stream through a same-origin demo route, while biryani uses an optimized local MP4. Only the active clip receives a video URL. `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 component tests), `pnpm test:browser` (2 Chrome smoke checks), and `pnpm build` passed on 11 October 2026. The browser suite scans the desktop discovery and restaurant pages plus mobile-sized discovery and Clips for automatically detectable WCAG A/AA issues. Touch gestures, sound, and playback on real mobile browsers remain unverified.
 
 ## Sentiment Training Learning Progress
 
@@ -134,4 +135,4 @@ Scale-oriented infrastructure should be introduced only when real usage or techn
 
 ## Recommended Next Step
 
-Verify autoplay, scrolling, sound, and fallback in target mobile browsers, then add an accessibility/browser smoke check. Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.
+Verify autoplay, scrolling, sound, and fallback in target mobile browsers. Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.
