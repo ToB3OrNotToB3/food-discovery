@@ -67,7 +67,7 @@ The reusable sentiment module loads DistilBERT on CPU. The API accepts review te
 
 On 29 September 2026, an in-process TestClient smoke check passed for health, real positive/negative model predictions, and rejection of blank, missing, and overlong input. No committed backend automated suite exists yet. The installed TestClient emitted an httpx deprecation warning; revisit its dependency when adding the test suite.
 
-The frontend uses typed fictional data in `frontend/src/mocks/places.ts` and labels synthetic Vibe Checks. `/watch` plays allowlisted stock footage; dosa and burger stream through a same-origin demo route, while biryani uses an optimized local MP4. Only the active clip receives a video URL. `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 component tests), `pnpm test:browser` (2 Chrome smoke checks), and `pnpm build` passed on 11 October 2026. The browser suite scans the desktop discovery and restaurant pages plus mobile-sized discovery and Clips for automatically detectable WCAG A/AA issues. Touch gestures, sound, and playback on real mobile browsers remain unverified.
+The frontend uses typed fictional data in `frontend/src/mocks/places.ts` and labels synthetic Vibe Checks. `/watch` plays allowlisted stock footage; dosa and burger stream through a same-origin demo route, while biryani uses an optimized local MP4. Only the active clip receives a video URL. `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 component tests), `pnpm test:browser` (2 Chrome smoke checks), and `pnpm build` passed on 11 October 2026. The browser suite scans the desktop discovery and restaurant pages plus mobile-sized discovery and Clips for automatically detectable WCAG A/AA issues. Satyam reported successful manual phone playback on 11 October 2026; device/browser details were not captured, so broader compatibility remains unmeasured.
 
 ## Sentiment Training Learning Progress
 
@@ -107,7 +107,7 @@ Working primarily on:
 - real restaurant/review data integration
 - final authentication system
 - production-ready API contracts
-- complete frontend application and real-device feed validation
+- complete frontend application and broader device/browser compatibility testing
 - mobile application
 - deployment pipeline
 - production hosting
@@ -135,4 +135,4 @@ Scale-oriented infrastructure should be introduced only when real usage or techn
 
 ## Recommended Next Step
 
-Verify autoplay, scrolling, sound, and fallback in target mobile browsers. Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.
+Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Capture device/browser details during future phone checks to establish a compatibility baseline. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.

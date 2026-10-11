@@ -32,7 +32,6 @@ Primary responsibility:
 - future mobile UI
 
 Current tasks:
-- [ ] Verify feed autoplay, swipe/scroll, sound, and failure recovery on target mobile browsers.
 - [ ] Coordinate the first discovery API contract with Vansh, then add an API-compatible mock adapter.
 - [ ] Connect frontend components to live backend APIs after the shared contract and endpoints exist.
 - [ ] Add URL-driven filters and broaden loading, empty, and error coverage.
@@ -72,6 +71,7 @@ These should not block the first usable release unless genuinely required:
 - [x] Satyam: build fictional discovery filters, restaurant pages, local saves, and a swipe/scroll video feed with component tests.
 - [x] Satyam: optimize the biryani demo clip to 1.25 MB and add visible-clip loading, offline messaging, timeout, and retry.
 - [x] Satyam: add Playwright browser smoke checks for discovery, restaurant navigation, and Clips, with automated WCAG A/AA scans; fix the reported labels and contrast.
+- [x] Satyam: manually check the Clips feed on phones; reported working on 11 October 2026 (device/browser details not recorded).
 - [x] Vansh: prepare 30 synthetic practice reviews (10 per sentiment label) and a script to inspect counts and validate nonblank text and accepted labels.
 
 - [x] Initialize Python project.
