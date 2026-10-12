@@ -2,6 +2,8 @@
 
 This file tracks active work, developer ownership, and startup-stage priorities.
 
+See `ROADMAP.md` for proposed milestone order, dependencies, and completion criteria across frontend, backend, and ML. Current ownership below remains unchanged.
+
 ## In Progress
 
 ### Vansh — Developer 1
@@ -67,6 +69,7 @@ These should not block the first usable release unless genuinely required:
 
 ## Completed
 
+- [x] Satyam: document the proposed frontend/backend/ML delivery roadmap, including pilot and public-release gates; implementation milestones remain pending.
 - [x] Satyam: define the Phase 1 frontend architecture and scaffold the Next.js web client.
 - [x] Satyam: build fictional discovery filters, restaurant pages, local saves, and a swipe/scroll video feed with component tests.
 - [x] Satyam: optimize the biryani demo clip to 1.25 MB and add visible-clip loading, offline messaging, timeout, and retry.

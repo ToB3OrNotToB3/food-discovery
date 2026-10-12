@@ -11,6 +11,7 @@ A short-form restaurant video feed with review sentiment (Vibe Check), dish tagg
 - [`docs/PRODUCT_BRIEF.md`](docs/PRODUCT_BRIEF.md): product vision, initial market, V1 scope, and success definition.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): current technical architecture and system boundaries.
 - [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md): what works now, known limitations, and the recommended next step.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md): proposed frontend, backend, and ML milestones through public web release and later mobile/ML extensions.
 - [`docs/TASKS.md`](docs/TASKS.md): active work and developer ownership.
 
 ## Current progress

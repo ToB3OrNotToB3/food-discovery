@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 11 October 2026
+Last updated: 12 October 2026
 
 ## Product Stage
 
@@ -134,5 +134,7 @@ Current priorities are:
 Scale-oriented infrastructure should be introduced only when real usage or technical constraints justify it.
 
 ## Recommended Next Step
+
+`ROADMAP.md` describes the proposed delivery sequence, owners, and completion criteria for frontend, backend, and ML through public web release and later extensions. This planning update does not change implementation status or select new technologies.
 
 Agree the first discovery API contract between Satyam and Vansh before implementing dependent clients or endpoints. Capture device/browser details during future phone checks to establish a compatibility baseline. Vansh's separate model-learning next step is the reproducible 24/6 dataset split and focused API/model tests.
